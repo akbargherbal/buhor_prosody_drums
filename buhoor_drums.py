@@ -472,12 +472,13 @@ def render_variant(
     bitrate: str = "192k",
     jitter: float = 0.007,
     velocity_variance: float = 0.12,
+    bpm_override: int | None = None,
 ) -> str:
     """Synthesize one rhythmic variant → MP3. Returns the output path."""
     bahr          = BUHOOR[bahr_key]
     steps_per_bar = bahr["steps_per_bar"]
     beats_per_bar = bahr["beats_per_bar"]
-    bpm           = variant["bpm"]
+    bpm           = bpm_override if bpm_override is not None else variant["bpm"]
 
     # Derived timing
     step_s      = beats_per_bar * 60.0 / (bpm * steps_per_bar)
@@ -580,8 +581,14 @@ def print_bahr_header(key: str):
     print()
 
 
-def print_pattern_grid(variant: dict):
-    print(f"  ▶ {variant['label']}  │  {variant['bpm']} BPM  │  {variant['mood']}")
+def print_pattern_grid(variant: dict, bpm_override: int | None = None):
+    effective_bpm = bpm_override if bpm_override is not None else variant["bpm"]
+    bpm_label = (
+        f"{effective_bpm} BPM  (override; default {variant['bpm']})"
+        if bpm_override is not None
+        else f"{variant['bpm']} BPM"
+    )
+    print(f"  ▶ {variant['label']}  │  {bpm_label}  │  {variant['mood']}")
     print(f"    Rationale: {variant['why']}")
     print(f"    {'─'*50}")
     for inst in ("kick", "snare", "hihat", "crash"):
@@ -607,6 +614,7 @@ def generate_bahr(
     bitrate: str = "192k",
     jitter: float = 0.007,
     velocity_variance: float = 0.12,
+    bpm_override: int | None = None,
     quiet: bool = False,
 ) -> list[str]:
     """Render all (or selected) variants for one bahr. Returns list of MP3 paths."""
@@ -617,16 +625,18 @@ def generate_bahr(
     for variant in bahr["variants"]:
         if variant_filter and variant["name"] not in variant_filter:
             continue
-        bar_s = bahr["beats_per_bar"] * 60.0 / variant["bpm"]
+        effective_bpm = bpm_override if bpm_override is not None else variant["bpm"]
+        bar_s = bahr["beats_per_bar"] * 60.0 / effective_bpm
         bars  = math.ceil(target_s / bar_s)
         if not quiet:
-            print_pattern_grid(variant)
+            print_pattern_grid(variant, bpm_override=bpm_override)
         path    = render_variant(
             key, variant, bars,
             output_dir=output_dir,
             bitrate=bitrate,
             jitter=jitter,
             velocity_variance=velocity_variance,
+            bpm_override=bpm_override,
         )
         size_kb = os.path.getsize(path) // 1024
         click.echo(f"    ✅  {os.path.basename(path)}  ({size_kb} KB)\n")
@@ -737,6 +747,17 @@ BAHR_NAMES = list(BUHOOR.keys())
     help="Max ±velocity nudge fraction (0 = robotic, 1 = chaotic).",
 )
 @click.option(
+    "--bpm",
+    "bpm_override",
+    default=None,
+    type=click.IntRange(min=20, max=300),
+    metavar="BPM",
+    help=(
+        "Override the tempo for every rendered variant. "
+        "Accepts 20–300 BPM. Default: each variant's own BPM."
+    ),
+)
+@click.option(
     "--bitrate",
     default="192k",
     show_default=True,
@@ -764,6 +785,7 @@ def main(
     seed,
     jitter,
     velocity_variance,
+    bpm_override,
     bitrate,
     quiet,
     list_buhoor,
@@ -846,6 +868,7 @@ def main(
                 bitrate=bitrate,
                 jitter=jitter,
                 velocity_variance=velocity_variance,
+                bpm_override=bpm_override,
                 quiet=quiet,
             )
         )

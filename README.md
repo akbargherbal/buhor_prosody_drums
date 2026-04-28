@@ -72,6 +72,12 @@ python buhoor_drums.py --all -d 30 -q
 # All meters with a fresh random seed each run
 python buhoor_drums.py --all --seed -1
 
+# Override tempo — render maqsum at 120 BPM instead of its default 90
+python buhoor_drums.py taweel -v maqsum --bpm 120
+
+# Force all meters to 100 BPM
+python buhoor_drums.py --all --bpm 100
+
 # List all meters and variants without generating anything
 python buhoor_drums.py --list
 ```
@@ -96,6 +102,9 @@ Options:
                                   repeatable: -v maqsum -v wahda
   --seed INTEGER                  Random seed for humanization;
                                   -1 picks a fresh seed each run [default: 42]
+  --bpm INTEGER                   Override the tempo for every rendered variant.
+                                  Accepts 20–300 BPM. Default: each variant's
+                                  own BPM.
   --jitter SECONDS                Max ±timing jitter per hit [default: 0.007]
   --velocity-variance FLOAT       Max ±velocity nudge fraction
                                   (0 = robotic, 1 = chaotic) [default: 0.12]
@@ -180,6 +189,29 @@ The king of Arabic meters. Its iambic (short→long) flow breathes like a long, 
 ---
 
 ## Customisation
+
+### Overriding BPM
+
+Every variant has its own default tempo chosen to match the prosodic character of its meter. You can override this for any render with `--bpm`:
+
+```bash
+# Render taweel's maqsum at 120 BPM instead of its default 90
+python buhoor_drums.py taweel -v maqsum --bpm 120
+
+# Force all meters to 100 BPM (useful for A/B pattern comparisons)
+python buhoor_drums.py --all --bpm 100
+
+# Combine with a specific variant and duration
+python buhoor_drums.py kamil -v andalusi_flow --bpm 75 -d 30
+```
+
+When `--bpm` is active the terminal output annotates the override alongside the variant's original tempo:
+
+```
+▶ Maqsum (مقسوم)  │  120 BPM  (override; default 90)  │  Narrative, dignified
+```
+
+The output filename reflects the actual rendered BPM — e.g. `taweel_maqsum_120bpm.mp3` — so overridden files never clash with default renders in the same directory.
 
 ### Changing output location
 

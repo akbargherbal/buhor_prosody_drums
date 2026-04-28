@@ -5,9 +5,12 @@ build/
 dist/
 wheels/
 *.egg-info
+buhoor_drums_mp3/
+
 
 # Virtual environments
 .venv
 
 # Output
 *.wav
+*.mp3
