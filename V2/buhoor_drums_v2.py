@@ -42,6 +42,7 @@ try:
         validate_buhoor_patterns,
         registry_summary,
     )
+
     _REGISTRY_AVAILABLE = True
 except ImportError:
     _REGISTRY_AVAILABLE = False
@@ -124,11 +125,24 @@ def synth_crash(duration: float = 1.20) -> np.ndarray:
     return (filt * _envelope(duration, 0.003, 0.5) * 0.45).astype(np.float32)
 
 
+def synth_ka(duration: float = 0.06) -> np.ndarray:
+    """Light doumbek finger snap — higher pitched than snare TEK.
+    Spec: ~5000 Hz ring + high-pass noise, very short decay."""
+    n = int(SAMPLE_RATE * duration)
+    t = np.linspace(0, duration, n)
+    ring = np.sin(2 * np.pi * 5000 * t) * _envelope(duration, 0.001, 4.0) * 0.3
+    noise = np.random.uniform(-1, 1, n)
+    sos = butter(2, 4000, btype="highpass", fs=SAMPLE_RATE, output="sos")
+    snap = sosfilt(sos, noise) * _envelope(duration, 0.001, 5.0) * 0.7
+    return ((ring + snap) * 0.60).astype(np.float32)
+
+
 SYNTH_MAP = {
     "kick": synth_kick,
     "snare": synth_snare,
     "hihat": synth_hihat,
     "crash": synth_crash,
+    "ka": synth_ka,
 }
 
 # ─────────────────────────────────────────────────────────────
@@ -818,17 +832,16 @@ def render_variant(
     panning = {
         "kick": _cpan(0.50),  # centre
         "snare": _cpan(0.50),  # centre
-        "hihat": _cpan(0.60),  # mild right (was 0.75)
-        "crash": _cpan(0.40),  # mild left  (was 0.25)
+        "ka": _cpan(0.50),  # centre
+        "hihat": _cpan(0.60),  # mild right
+        "crash": _cpan(0.40),  # mild left
     }
 
     # Per-channel base velocities (Action 4).
-    # DUM strokes are the structural anchor; ghost strokes (TEK, KA) sit
-    # consistently 40–60 % quieter. Uniform variance without a base level
-    # collapses this hierarchy.
     BASE_VELOCITY = {
         "kick": 1.00,
         "snare": 0.50,
+        "ka": 0.40,  # Lighter than TEK
         "hihat": 0.45,
         "crash": 0.70,
     }
@@ -1213,8 +1226,7 @@ def main(
         # Resolve JSON path
         _script_dir = Path(__file__).parent
         _json_path = (
-            Path(data_path) if data_path
-            else _script_dir / "arabic_rhythm_data.json"
+            Path(data_path) if data_path else _script_dir / "arabic_rhythm_data.json"
         )
         click.echo("\n  Registry validation")
         click.echo("  ═══════════════════")
@@ -1248,26 +1260,25 @@ def main(
         if _json_path.exists():
             try:
                 json_registry = load_registry(_json_path)
-                click.echo(
-                    f"  JSON registry  ({_json_path.name}):"
-                )
+                click.echo(f"  JSON registry  ({_json_path.name}):")
                 click.echo(registry_summary(json_registry, IqaaPatternRegistry))
                 click.echo()
                 current_meters = list(BUHOOR.keys())
                 json_gaps_current = validate_registry(
-                    json_registry, IqaaPatternRegistry,
+                    json_registry,
+                    IqaaPatternRegistry,
                     meter_filter=current_meters,
                 )
                 json_gaps_all = validate_registry(
-                    json_registry, IqaaPatternRegistry,
+                    json_registry,
+                    IqaaPatternRegistry,
                 )
                 click.echo(
                     f"  JSON gaps (current 4 meters only) : "
                     f"{len(json_gaps_current)}"
                 )
                 click.echo(
-                    f"  JSON gaps (all meters)            : "
-                    f"{len(json_gaps_all)}"
+                    f"  JSON gaps (all meters)            : " f"{len(json_gaps_all)}"
                 )
                 if json_gaps_all:
                     click.echo(
