@@ -18,6 +18,8 @@ import numpy as np
 import random
 import os
 import sys
+import json
+import datetime
 import click
 from pathlib import Path
 from scipy.io import wavfile
@@ -134,21 +136,7 @@ BUHOOR: dict = {
         "beats_per_bar": 4,
         "steps_per_bar": 12,
         "description": "Al-Taweel is the undisputed king — the most used meter in Arabic poetry. Its taf'eela creates an iambic flow that breathes like a long sentence.",
-        "variants": [
-            {
-                "name": "wahda",
-                "label": "Wahda Kabeera (وحدة كبيرة)",
-                "bpm": 72,
-                "mood": "Meditative, spacious",
-                "why": "Primary and most traditional cycle for Al-Taweel.",
-                "patterns": {
-                    "kick": [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                    "snare": [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0],
-                    "hihat": [1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0],
-                    "crash": [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                },
-            }
-        ],
+        "variants": [],
     },
     "kamil": {
         "arabic": "الكامل",
@@ -274,7 +262,7 @@ BUHOOR: dict = {
 }
 
 # ─────────────────────────────────────────────────────────────
-#  DYNAMIC REGISTRY LOADING (Phase 3)
+#  DYNAMIC REGISTRY LOADING (Phase 3 & 4)
 # ─────────────────────────────────────────────────────────────
 if _REGISTRY_AVAILABLE:
     _json_path = Path(__file__).parent / "arabic_rhythm_data.json"
@@ -315,6 +303,7 @@ if _REGISTRY_AVAILABLE:
                                     "name": _rec.variant_slug,
                                     "label": _rec.iqaa,
                                     "bpm": _rec.default_bpm,
+                                    "bpm_range": _rec.bpm_range,
                                     "mood": _rec.mood_en,
                                     "why": _rec.performance_notes,
                                     "patterns": _pat,
@@ -322,6 +311,8 @@ if _REGISTRY_AVAILABLE:
                                     "beats_per_bar": _beats,
                                     "is_traditional": _rec.is_traditional,
                                     "geographic_tradition": _rec.geographic_tradition,
+                                    "instrument_context": _rec.instrument_context,
+                                    "syllable_pattern": _rec.syllable_pattern,
                                     "corpus_pct": _rec.corpus_pct,
                                 }
                             )
@@ -366,17 +357,15 @@ def render_variant(
     bitrate: str = "192k",
     jitter: float = 0.007,
     velocity_variance: float = 0.12,
-    bpm_override: int | None = None,
+    effective_bpm: int,
     quiet: bool = False,
 ) -> str:
     bahr = BUHOOR[bahr_key]
 
-    # Phase 3: Use per-variant step/beat counts to support heterogeneous iqaat
     steps_per_bar = variant.get("steps_per_bar", bahr["steps_per_bar"])
     beats_per_bar = variant.get("beats_per_bar", bahr["beats_per_bar"])
-    bpm = bpm_override if bpm_override is not None else variant["bpm"]
 
-    step_s = beats_per_bar * 60.0 / (bpm * steps_per_bar)
+    step_s = beats_per_bar * 60.0 / (effective_bpm * steps_per_bar)
     total_steps = steps_per_bar * bars
     total_n = int(total_steps * step_s * SAMPLE_RATE) + SAMPLE_RATE
 
@@ -440,12 +429,14 @@ def render_variant(
     pcm = (mix * 32767).astype(np.int16)
 
     ts = bahr["time_signature"]
-    fname = f"{bahr_key}_{variant['name']}_{bpm}bpm"
+    fname = f"{bahr_key}_{variant['name']}_{effective_bpm}bpm"
     wav_p = f"/tmp/{fname}.wav"
     mp3_p = os.path.join(output_dir, fname + ".mp3")
 
     wavfile.write(wav_p, SAMPLE_RATE, pcm)
     audio = AudioSegment.from_wav(wav_p)
+
+    # Phase 4: Enhanced ID3 Tags
     audio.export(
         mp3_p,
         format="mp3",
@@ -454,7 +445,12 @@ def render_variant(
             "title": f"{bahr['arabic']} — {variant['label']}",
             "artist": "Buhoor Drum Generator",
             "album": "Arabic Poetic Meters / بحور الشعر",
-            "comment": f"{bpm} BPM | {bars} bars | {ts[0]}/{ts[1]} | {variant['mood']}",
+            "comment": variant.get("why", ""),
+            "genre": f"Arabic Poetry / {variant.get('mood', '')}",
+            "publisher": variant.get("geographic_tradition", "Pan-Arab"),
+            "composer": (
+                "Traditional" if variant.get("is_traditional", True) else "Contemporary"
+            ),
         },
     )
     os.remove(wav_p)
@@ -499,11 +495,10 @@ def print_bahr_header(key: str):
     print()
 
 
-def print_pattern_grid(variant: dict, bpm_override: int | None = None):
-    effective_bpm = bpm_override if bpm_override is not None else variant["bpm"]
+def print_pattern_grid(variant: dict, effective_bpm: int):
     bpm_label = (
         f"{effective_bpm} BPM  (override; default {variant['bpm']})"
-        if bpm_override is not None
+        if effective_bpm != variant["bpm"]
         else f"{variant['bpm']} BPM"
     )
     trad_str = "Traditional" if variant.get("is_traditional", True) else "Contemporary"
@@ -524,6 +519,29 @@ def print_pattern_grid(variant: dict, bpm_override: int | None = None):
 
 
 # ─────────────────────────────────────────────────────────────
+#  VALIDATION HELPERS
+# ─────────────────────────────────────────────────────────────
+
+
+def validate_bpm(bpm: int, variant: dict, quiet: bool, no_clamp: bool) -> int:
+    """If bpm outside bpm_range, warn and clamp. Return effective bpm."""
+    min_bpm, max_bpm = variant.get("bpm_range", (0, 300))
+    if bpm < min_bpm or bpm > max_bpm:
+        if not quiet:
+            click.echo(
+                f"  ⚠  Warning: {bpm} BPM is outside the recommended range [{min_bpm}–{max_bpm}] for {variant['name']}."
+            )
+        if not no_clamp:
+            clamped = max(min_bpm, min(bpm, max_bpm))
+            if not quiet:
+                click.echo(
+                    f"     Clamping to {clamped} BPM. Use --no-clamp to override."
+                )
+            return clamped
+    return bpm
+
+
+# ─────────────────────────────────────────────────────────────
 #  GENERATE ONE BAHR
 # ─────────────────────────────────────────────────────────────
 
@@ -533,29 +551,52 @@ def generate_bahr(
     target_s: float = TARGET_DURATION_S,
     *,
     variant_filter: tuple[str, ...] = (),
+    traditional_only: bool = False,
+    region_filter: tuple[str, ...] = (),
+    instrument_filter: tuple[str, ...] = (),
     output_dir: str = OUTPUT_DIR,
     bitrate: str = "192k",
     jitter: float = 0.007,
     velocity_variance: float = 0.12,
     bpm_override: int | None = None,
+    no_clamp: bool = False,
     quiet: bool = False,
-) -> list[str]:
-    if not quiet:
-        print_bahr_header(key)
+) -> list[tuple[str, dict]]:
     bahr = BUHOOR[key]
-    paths = []
+    results = []
+    header_printed = False
+
     for variant in bahr["variants"]:
+        # Phase 4: Apply Filters
         if variant_filter and variant["name"] not in variant_filter:
             continue
-        effective_bpm = bpm_override if bpm_override is not None else variant["bpm"]
+        if traditional_only and not variant.get("is_traditional", True):
+            continue
+        if region_filter and variant.get(
+            "geographic_tradition", "Pan-Arab"
+        ).lower() not in [r.lower() for r in region_filter]:
+            continue
+        if instrument_filter and variant.get("instrument_context", "").lower() not in [
+            i.lower() for i in instrument_filter
+        ]:
+            continue
 
-        # Phase 3: Use per-variant beats_per_bar to maintain timing model
+        if not quiet and not header_printed:
+            print_bahr_header(key)
+            header_printed = True
+
+        effective_bpm = variant["bpm"]
+        if bpm_override is not None:
+            effective_bpm = validate_bpm(bpm_override, variant, quiet, no_clamp)
+
         beats_per_bar = variant.get("beats_per_bar", bahr["beats_per_bar"])
+        steps_per_bar = variant.get("steps_per_bar", bahr["steps_per_bar"])
         bar_s = beats_per_bar * 60.0 / effective_bpm
         bars = math.ceil(target_s / bar_s)
 
         if not quiet:
-            print_pattern_grid(variant, bpm_override=bpm_override)
+            print_pattern_grid(variant, effective_bpm)
+
         path = render_variant(
             key,
             variant,
@@ -564,13 +605,30 @@ def generate_bahr(
             bitrate=bitrate,
             jitter=jitter,
             velocity_variance=velocity_variance,
-            bpm_override=bpm_override,
+            effective_bpm=effective_bpm,
             quiet=quiet,
         )
-        size_kb = os.path.getsize(path) // 1024
-        click.echo(f"    ✅  {os.path.basename(path)}  ({size_kb} KB)\n")
-        paths.append(path)
-    return paths
+
+        if not quiet:
+            size_kb = os.path.getsize(path) // 1024
+            click.echo(f"    ✅  {os.path.basename(path)}  ({size_kb} KB)\n")
+
+        # Phase 4: Build manifest entry
+        manifest_entry = {
+            "filename": os.path.basename(path),
+            "meter_ar": bahr["arabic"],
+            "iqaa": variant["label"],
+            "is_traditional": variant.get("is_traditional", True),
+            "bpm": effective_bpm,
+            "bpm_range": variant.get("bpm_range", [0, 300]),
+            "steps_per_bar": steps_per_bar,
+            "geographic_tradition": variant.get("geographic_tradition", "Pan-Arab"),
+            "instrument_context": variant.get("instrument_context", ""),
+            "performance_notes": variant.get("why", ""),
+        }
+        results.append((path, manifest_entry))
+
+    return results
 
 
 # ─────────────────────────────────────────────────────────────
@@ -641,6 +699,27 @@ BAHR_NAMES = list(BUHOOR.keys())
     help="Render only the named variant(s).",
 )
 @click.option(
+    "--traditional-only",
+    is_flag=True,
+    help="Render only is_traditional=True pairings.",
+)
+@click.option(
+    "--region",
+    "region_filter",
+    type=click.Choice(["Masri", "Shami", "Andalusi", "Pan-Arab"], case_sensitive=False),
+    multiple=True,
+    help="Filter by geographic tradition. Repeatable.",
+)
+@click.option(
+    "--instrument",
+    "instrument_filter",
+    type=click.Choice(
+        ["doumbek solo", "firqa", "mixed ensemble", "tabl + riq"], case_sensitive=False
+    ),
+    multiple=True,
+    help="Filter by instrument context. Repeatable.",
+)
+@click.option(
     "--seed",
     default=42,
     show_default=True,
@@ -669,6 +748,11 @@ BAHR_NAMES = list(BUHOOR.keys())
     help="Override the tempo for every rendered variant.",
 )
 @click.option(
+    "--no-clamp",
+    is_flag=True,
+    help="Do not clamp BPM to the recommended range.",
+)
+@click.option(
     "--bitrate",
     default="192k",
     show_default=True,
@@ -684,6 +768,13 @@ BAHR_NAMES = list(BUHOOR.keys())
     "list_buhoor",
     is_flag=True,
     help="List available buhoor (and their variants) then exit.",
+)
+@click.option(
+    "--info",
+    type=(str, str),
+    default=None,
+    metavar="BAHR VARIANT",
+    help="Print full metadata for a specific meter/variant pairing and exit.",
 )
 @click.option(
     "--data",
@@ -705,17 +796,57 @@ def main(
     output_dir,
     duration,
     variant_filter,
+    traditional_only,
+    region_filter,
+    instrument_filter,
     seed,
     jitter,
     velocity_variance,
     bpm_override,
+    no_clamp,
     bitrate,
     quiet,
     list_buhoor,
+    info,
     data_path,
     run_validate,
 ):
     """بحور الشعر — Arabic Poetic Meters Drum Generator"""
+
+    if info:
+        bahr_key, variant_key = info
+        if bahr_key not in BUHOOR:
+            click.echo(f"Unknown bahr: {bahr_key}")
+            return
+        bahr = BUHOOR[bahr_key]
+        variant = next((v for v in bahr["variants"] if v["name"] == variant_key), None)
+        if not variant:
+            click.echo(f"Unknown variant '{variant_key}' for bahr '{bahr_key}'")
+            return
+
+        click.echo(f"\n  {bahr['arabic']} (Al-{bahr_key.title()}) × {variant['label']}")
+        click.echo(f"  {'─'*40}")
+        click.echo(f"  Corpus share    : {bahr.get('corpus_pct', 0.0)}%")
+        bpm_min, bpm_max = variant.get("bpm_range", (0, 300))
+        click.echo(
+            f"  BPM range       : {bpm_min} – {bpm_max}  (default {variant['bpm']})"
+        )
+        click.echo(
+            f"  Steps/bar       : {variant.get('steps_per_bar', bahr['steps_per_bar'])}"
+        )
+        ts = bahr["time_signature"]
+        click.echo(f"  Time signature  : {ts[0]}/{ts[1]}")
+        click.echo(
+            f"  Geographic area : {variant.get('geographic_tradition', 'Pan-Arab')}"
+        )
+        click.echo(f"  Instrument      : {variant.get('instrument_context', 'N/A')}")
+        click.echo(
+            f"  Traditional     : {'Yes' if variant.get('is_traditional', True) else 'No'}"
+        )
+        click.echo(
+            f"  Performance notes:\n{_wrap(variant.get('why', ''), width=60, indent='    ')}\n"
+        )
+        return
 
     if list_buhoor:
         print_header()
@@ -797,20 +928,38 @@ def main(
         )
 
     all_paths = []
+    all_manifest_entries = []
+
     for key in selected:
-        all_paths.extend(
-            generate_bahr(
-                key,
-                target_s=duration,
-                variant_filter=variant_filter,
-                output_dir=output_dir,
-                bitrate=bitrate,
-                jitter=jitter,
-                velocity_variance=velocity_variance,
-                bpm_override=bpm_override,
-                quiet=quiet,
-            )
+        results = generate_bahr(
+            key,
+            target_s=duration,
+            variant_filter=variant_filter,
+            traditional_only=traditional_only,
+            region_filter=region_filter,
+            instrument_filter=instrument_filter,
+            output_dir=output_dir,
+            bitrate=bitrate,
+            jitter=jitter,
+            velocity_variance=velocity_variance,
+            bpm_override=bpm_override,
+            no_clamp=no_clamp,
+            quiet=quiet,
         )
+        for path, entry in results:
+            all_paths.append(path)
+            all_manifest_entries.append(entry)
+
+    # Phase 4: Write manifest.json
+    if all_manifest_entries:
+        manifest_data = {
+            "generated_at": datetime.datetime.now(datetime.timezone.utc).isoformat(),
+            "seed": effective_seed,
+            "files": all_manifest_entries,
+        }
+        manifest_path = os.path.join(output_dir, "manifest.json")
+        with open(manifest_path, "w", encoding="utf-8") as f:
+            json.dump(manifest_data, f, indent=2, ensure_ascii=False)
 
     click.echo(f"\n{'═'*60}")
     click.echo(f"  Output directory : {output_dir}")
@@ -818,6 +967,8 @@ def main(
     for p in all_paths:
         size_kb = os.path.getsize(p) // 1024
         click.echo(f"    • {os.path.basename(p):50s}  ({size_kb} KB)")
+    if all_manifest_entries:
+        click.echo(f"    • {'manifest.json':50s}  (Metadata)")
     click.echo()
 
 

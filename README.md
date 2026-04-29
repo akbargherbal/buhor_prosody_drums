@@ -1,21 +1,29 @@
 # بحور الشعر — Arabic Poetic Meters Drum Generator
 
-A command-line tool that synthesizes drum loops matched to the rhythmic character of the four most important Arabic poetic meters (*buhoor* — بحور). Each meter produces 2–3 MP3 files drawn from compatible Arabic percussion cycles.
+A command-line tool that synthesizes drum loops matched to the rhythmic character of all 13 major Arabic poetic meters (_buhoor_ — بحور). Driven by a rich JSON metadata registry, the tool produces MP3 files drawn from 44 compatible Arabic percussion cycles, complete with ID3 tags and generation manifests.
 
 ---
 
 ## Background
 
-Arabic poetry is built on a system of quantitative meters called *buhoor* (بحور, literally "seas"). Each bahr has a characteristic pattern of long (—) and short (∪) syllables that gives it a distinct rhythmic personality. This tool translates those prosodic patterns into drum grids — kick, snare, hihat, and crash — so you can hear, and produce with, the rhythmic soul of each meter.
+Arabic poetry is built on a system of quantitative meters called _buhoor_ (بحور, literally "seas"). Each bahr has a characteristic pattern of long (—) and short (∪) syllables that gives it a distinct rhythmic personality. This tool translates those prosodic patterns into drum grids — kick, snare, ka (doumbek snap), hihat, and crash — so you can hear, and produce with, the rhythmic soul of each meter.
 
-The four meters covered represent roughly **75% of the classical Arabic poetic corpus**:
+The 13 meters covered represent nearly **100% of the classical Arabic poetic corpus**:
 
-| Bahr | Arabic | Corpus share | Character |
-|------|--------|-------------|-----------|
-| Al-Taweel | الطويل | ~35% | Flowing, epic, iambic |
-| Al-Kamil | الكامل | ~18% | Ascending, ternary, emotional |
-| Al-Baseet | البسيط | ~12% | Heavy, declarative, spondaic |
-| Al-Wafir | الوافر | ~10% | Rippling, lyrical, 6/8 |
+| Bahr         | Arabic   | Corpus share | Time Signature |
+| ------------ | -------- | ------------ | -------------- |
+| Al-Taweel    | الطويل   | 35.0%        | 4/4            |
+| Al-Kamil     | الكامل   | 18.0%        | 3/4            |
+| Al-Baseet    | البسيط   | 14.0%        | 4/4            |
+| Al-Wafir     | الوافر   | 8.0%         | 6/8            |
+| Al-Ramal     | الرمل    | 7.0%         | 4/4            |
+| Al-Rajaz     | الرجز    | 5.5%         | 4/4            |
+| Al-Khafeef   | الخفيف   | 4.5%         | 10/8           |
+| Al-Mutaqarib | المتقارب | 3.5%         | 4/4            |
+| Al-Hazaj     | الهزج    | 2.0%         | 4/4            |
+| Al-Sari      | السريع   | 1.5%         | 4/4            |
+| Al-Mutadarak | المتدارك | 1.0%         | 4/4            |
+| Al-Madeed    | المديد   | 0.5%         | 7/8            |
 
 ---
 
@@ -52,229 +60,161 @@ sudo apt install ffmpeg
 
 ```bash
 # Interactive menu — prompts you to choose a meter
-python buhoor_drums.py
+python buhoor_drums_v2.py
 
 # One specific meter by name
-python buhoor_drums.py taweel
+python buhoor_drums_v2.py taweel
 
 # Multiple meters at once
-python buhoor_drums.py kamil baseet
+python buhoor_drums_v2.py kamil baseet
 
-# All four meters
-python buhoor_drums.py --all
-
-# One meter, one variant only
-python buhoor_drums.py taweel -v maqsum
-
-# All meters, 30 s loops, quiet output
-python buhoor_drums.py --all -d 30 -q
-
-# All meters with a fresh random seed each run
-python buhoor_drums.py --all --seed -1
-
-# Override tempo — render maqsum at 120 BPM instead of its default 90
-python buhoor_drums.py taweel -v maqsum --bpm 120
-
-# Force all meters to 100 BPM
-python buhoor_drums.py --all --bpm 100
+# All 13 meters (generates ~44 files)
+python buhoor_drums_v2.py --all
 
 # List all meters and variants without generating anything
-python buhoor_drums.py --list
+python buhoor_drums_v2.py --list
+
+# View rich metadata for a specific meter/variant pairing
+python buhoor_drums_v2.py --info taweel wahda_kabira
 ```
 
-Valid meter names: `taweel`, `kamil`, `baseet`, `wafir`
+### Filtering & Metadata
+
+The tool includes a rich metadata registry (`arabic_rhythm_data.json`) that allows you to filter outputs by tradition, region, and instrument context:
+
+```bash
+# Generate only traditional pairings (no contemporary experiments)
+python buhoor_drums_v2.py --all --traditional-only
+
+# Generate only Egyptian (Masri) rhythms
+python buhoor_drums_v2.py --all --region Masri
+
+# Generate only rhythms meant for a full Firqa ensemble
+python buhoor_drums_v2.py --all --instrument firqa
+```
+
+### Tempo & Humanization
+
+Every variant has its own default tempo chosen to match the prosodic character of its meter. You can override this for any render with `--bpm`. The tool will warn you and clamp the tempo if you exceed the historically accurate `bpm_range` for that rhythm, unless you pass `--no-clamp`.
+
+```bash
+# Override tempo (will clamp if outside recommended range)
+python buhoor_drums_v2.py taweel -v wahda_kabira --bpm 120
+
+# Override tempo and force it past the recommended range
+python buhoor_drums_v2.py taweel -v wahda_kabira --bpm 200 --no-clamp
+
+# Tighter timing, more velocity variation
+python buhoor_drums_v2.py --all --jitter 0.003 --velocity-variance 0.2
+
+# Completely mechanical (no humanization)
+python buhoor_drums_v2.py --all --jitter 0 --velocity-variance 0
+```
 
 ---
 
 ## Options
 
 ```
-Usage: buhoor_drums.py [OPTIONS] [BAHR]...
+Usage: buhoor_drums_v2.py [OPTIONS] [BAHR]...
 
 Options:
-  --all                           Generate all buhoor
-  -o, --output-dir DIRECTORY      Directory for output MP3 files
+  --all                           Generate all buhoor.
+  -o, --output-dir DIRECTORY      Directory for output MP3 files.
                                   [default: /mnt/user-data/outputs/buhoor]
-                                  [env: BUHOOR_OUTPUT_DIR]
-  -d, --duration SECONDS          Target loop duration in seconds
-                                  [default: 10.0]
-  -v, --variant NAME              Render only the named variant(s);
-                                  repeatable: -v maqsum -v wahda
-  --seed INTEGER                  Random seed for humanization;
-                                  -1 picks a fresh seed each run [default: 42]
+  -d, --duration FLOAT            Target loop duration in seconds. [default: 10.0]
+  -v, --variant TEXT              Render only the named variant(s).
+  --traditional-only              Render only is_traditional=True pairings.
+  --region [Masri|Shami|Andalusi|Pan-Arab]
+                                  Filter by geographic tradition. Repeatable.
+  --instrument [doumbek solo|firqa|mixed ensemble|tabl + riq]
+                                  Filter by instrument context. Repeatable.
+  --seed INTEGER                  Random seed for humanization. [default: 42]
+  --jitter FLOAT                  Max ±timing jitter per hit in seconds.
+  --velocity-variance FLOAT       Max ±velocity nudge fraction.
   --bpm INTEGER                   Override the tempo for every rendered variant.
-                                  Accepts 20–300 BPM. Default: each variant's
-                                  own BPM.
-  --jitter SECONDS                Max ±timing jitter per hit [default: 0.007]
-  --velocity-variance FLOAT       Max ±velocity nudge fraction
-                                  (0 = robotic, 1 = chaotic) [default: 0.12]
-  --bitrate [128k|192k|256k|320k] MP3 output bitrate [default: 192k]
-  -q, --quiet                     Suppress descriptions and pattern grids
-  -l, --list                      List available buhoor and variants, then exit
-  -V, --version                   Show the version and exit
-  -h, --help                      Show this message and exit
+  --no-clamp                      Do not clamp BPM to the recommended range.
+  --bitrate [128k|192k|256k|320k] MP3 output bitrate. [default: 192k]
+  -q, --quiet                     Suppress descriptions and pattern grids.
+  -l, --list                      List available buhoor (and their variants) then exit.
+  --info BAHR VARIANT             Print full metadata for a specific meter/variant pairing and exit.
+  --data FILE                     Path to arabic_rhythm_data.json.
+  --validate                      Validate pattern coverage against the JSON registry, then exit.
+  -V, --version                   Show the version and exit.
+  -h, --help                      Show this message and exit.
 ```
-
-The output directory can also be set via the `BUHOOR_OUTPUT_DIR` environment variable, which the `--output-dir` flag overrides.
 
 ---
 
-## Output
+## Output & Manifest
 
-MP3 files are written to the output directory (default `/mnt/user-data/outputs/buhoor/`). Each file is named:
+MP3 files are written to the output directory. Each file is named:
 
 ```
 {meter}_{cycle}_{bpm}bpm.mp3
 ```
 
-For example: `taweel_maqsum_90bpm.mp3`
+For example: `taweel_mudawwar_masri_80bpm.mp3`
 
-Loop length is controlled by `--duration` (default 10 s); the script calculates the number of bars needed to reach that duration at each variant's BPM. ID3 tags are embedded with the meter name, BPM, time signature, and mood.
+**ID3 Tags:** Files are automatically tagged with rich metadata, including the Arabic meter name, time signature, mood (Genre), geographic tradition (Publisher), and detailed performance notes (Comments).
 
----
-
-## The Meters and Their Cycles
-
-### الطويل — Al-Taweel `(4/4)`
-*Pattern: ∪—— | ∪———*
-
-The king of Arabic meters. Its iambic (short→long) flow breathes like a long, unfolding sentence. Three cycles are provided:
-
-| File | Cycle | BPM | Mood |
-|------|-------|-----|------|
-| `taweel_maqsum_90bpm.mp3` | Maqsum (مقسوم) | 90 | Narrative, dignified |
-| `taweel_wahda_72bpm.mp3` | Wahda Kabeera (وحدة كبيرة) | 72 | Meditative, spacious |
-| `taweel_fallahy_100bpm.mp3` | Fallahi (فلاحي) | 100 | Folk, earthy, energetic |
+**Manifest:** After every generation run, a `manifest.json` file is written to the output directory containing the exact metadata, seed, and generation timestamp for every file produced.
 
 ---
 
-### الكامل — Al-Kamil `(3/4)`
-*Pattern: ∪∪— | ∪∪— | ∪∪—*
+## Architecture: Adding a New Variant
 
-"The complete." Its foot *mutafa'ilun* is ascending (anapestic): two short pickups rush forward into a long landing. The drum patterns honour this by placing the heavy kick on the **long syllable**, not the first short — preserving the anacrustic feel that defines Al-Kamil.
+The tool uses a two-layer, JSON-driven architecture:
 
-| File | Cycle | BPM | Mood |
-|------|-------|-----|------|
-| `kamil_samaai_darij_104bpm.mp3` | Samaai Darij (سماعي دارج) | 104 | Lyrical, elegant |
-| `kamil_andalusi_flow_88bpm.mp3` | Andalusian 6/8 Flow (أندلسي) | 88 | Flowing, gentle |
-| `kamil_muwashshah_syncopated_116bpm.mp3` | Muwashshah Syncopated (موشح متشابك) | 116 | Festive, celebratory |
+1. **`arabic_rhythm_data.json`**: The authoritative source of truth for metadata (BPM ranges, regions, traditions).
+2. **`iqaa_patterns.py`**: A registry mapping `(variant_slug, steps_per_bar)` to the actual drum grids.
 
-> **Note on cycle names:** Two variants were previously mislabeled in an earlier version as "Jurjina" and "Dawr Hindi." Real Jurjina is a 10/8 cycle and real Dawr Hindi is a 7/8 cycle — neither fits a 12-step grid. The current names accurately describe what these patterns are.
+To add a new rhythm:
 
----
+1. Add a new record to `arabic_rhythm_data.json`:
 
-### البسيط — Al-Baseet `(4/4)`
-*Pattern: ——∪— | —∪—*
-
-"The spread out." Opens with two consecutive long syllables (——) that land like a firm double-step, giving it declarative authority. It was the meter of satire, pride, and warrior poetry. The Masmoudi Kabir pattern captures this with a triple kick on beats 1, 2, and 3.
-
-| File | Cycle | BPM | Mood |
-|------|-------|-----|------|
-| `baseet_masmoudi_kabir_100bpm.mp3` | Masmoudi Kabir (مصمودي كبير) | 100 | Heavy, powerful |
-| `baseet_march_112bpm.mp3` | Askari March (مارش عسكري) | 112 | Martial, decisive |
-| `baseet_zaffa_96bpm.mp3` | Zaffa (زفة) | 96 | Festive, ceremonial |
-
----
-
-### الوافر — Al-Wafir `(6/8)`
-*Pattern: ∪—∪∪— | ∪—∪∪— | ∪——*
-
-"The abundant." Its foot *mufa'alatun* has a wave-like quality: a long crest, two quick adjacent ripples (∪∪), then another crest. The hihat patterns use **adjacent hits** to encode those two rapid syllables — the only way to represent the double-short in a step sequencer.
-
-| File | Cycle | BPM | Mood |
-|------|-------|-----|------|
-| `wafir_muwashshah_80bpm.mp3` | Muwashshah (موشح أندلسي) | 80 | Elegant, Andalusian |
-| `wafir_wafir_ripple_92bpm.mp3` | Wafir Ripple (وافر متموج) | 92 | Forward-moving, lyrical |
-
----
-
-## Customisation
-
-### Overriding BPM
-
-Every variant has its own default tempo chosen to match the prosodic character of its meter. You can override this for any render with `--bpm`:
-
-```bash
-# Render taweel's maqsum at 120 BPM instead of its default 90
-python buhoor_drums.py taweel -v maqsum --bpm 120
-
-# Force all meters to 100 BPM (useful for A/B pattern comparisons)
-python buhoor_drums.py --all --bpm 100
-
-# Combine with a specific variant and duration
-python buhoor_drums.py kamil -v andalusi_flow --bpm 75 -d 30
-```
-
-When `--bpm` is active the terminal output annotates the override alongside the variant's original tempo:
-
-```
-▶ Maqsum (مقسوم)  │  120 BPM  (override; default 90)  │  Narrative, dignified
-```
-
-The output filename reflects the actual rendered BPM — e.g. `taweel_maqsum_120bpm.mp3` — so overridden files never clash with default renders in the same directory.
-
-### Changing output location
-
-```bash
-# Via flag
-python buhoor_drums.py --all -o ~/my_loops
-
-# Via environment variable
-export BUHOOR_OUTPUT_DIR=~/my_loops
-python buhoor_drums.py --all
-```
-
-### Tweaking humanization
-
-```bash
-# Tighter timing, more velocity variation
-python buhoor_drums.py --all --jitter 0.003 --velocity-variance 0.2
-
-# Completely mechanical (no humanization)
-python buhoor_drums.py --all --jitter 0 --velocity-variance 0
-
-# Different result each run
-python buhoor_drums.py --all --seed -1
-```
-
-### Adding a new variant
-
-Append a new dictionary to the `"variants"` list of any meter in the `BUHOOR` dictionary, following the existing structure:
-
-```python
+```json
 {
-    "name" : "my_variant",          # used in the filename and -v filter
-    "label": "My Variant (label)",
-    "bpm"  : 95,
-    "mood" : "Description",
-    "why"  : "Rationale for why this cycle suits the meter.",
-    "patterns": {
-        "kick" : [1,0,0,0, 0,0,0,0, 1,0,0,1, 0,0,0,0],  # 16 steps for 4/4
-        "snare": [0,0,0,0, 1,0,0,1, 0,0,0,0, 1,0,0,1],
-        "hihat": [1,0,1,0, 1,0,1,0, 1,0,1,0, 1,0,1,0],
-        "crash": [1,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0],
-    },
+  "meter_ar": "الطويل",
+  "iqaa": "My Custom Rhythm",
+  "is_traditional": false,
+  "mood_en": "Experimental",
+  "geographic_tradition": "Pan-Arab",
+  "variant_slug": "my_custom_rhythm",
+  "default_bpm": 90,
+  "bpm_range": [70, 110],
+  "steps_per_bar": 8,
+  "instrument_context": "doumbek solo",
+  "performance_notes": "DUM on 1, TEK on 4.",
+  "syllable_pattern": "∪——∪∪——∪——∪∪——",
+  "corpus_pct": 35.0
 }
 ```
 
-Step counts must match `steps_per_bar` for that meter (16 for 4/4 meters, 12 for 3/4 and 6/8).
+2. Add the corresponding drum grid to `IqaaPatternRegistry` in `iqaa_patterns.py`:
 
-Then render just your new variant:
-
-```bash
-python buhoor_drums.py taweel -v my_variant
+```python
+("my_custom_rhythm", 8): {
+    "kick":  [1, 0, 0, 0, 0, 0, 0, 0],
+    "snare": [0, 0, 0, 1, 0, 0, 0, 0],
+    "ka":    [0, 0, 1, 0, 1, 0, 1, 0],
+    "hihat": [1, 0, 1, 0, 1, 0, 1, 0],
+    "crash": [1, 0, 0, 0, 0, 0, 0, 0],
+}
 ```
+
+3. Run `python buhoor_drums_v2.py --validate` to ensure your new pattern is correctly linked.
 
 ---
 
 ## Technical Notes
 
 **Drum synthesis** is physics-based, using no external samples:
+
 - **Kick** — 808-style pitch sweep from 150 Hz → 50 Hz with exponential decay
 - **Snare** — 200 Hz tonal body blended with filtered noise burst
+- **Ka** — Light doumbek finger snap; 5 kHz ring with high-pass noise and very short decay
 - **Hihat** — White noise passed through a 7 kHz Butterworth high-pass filter
 - **Crash** — Broadband noise through a 4 kHz high-pass with slow decay
-
-**Humanisation** adds per-hit timing jitter (default ±7 ms) and velocity variance (default ±12%), both tunable via `--jitter` and `--velocity-variance`. The default seed is `42` for reproducible asset pipelines; pass `--seed -1` for a fresh seed each run.
 
 **Panning** uses a constant-power law (`L = cos(p·π/2)`, `R = sin(p·π/2)`) to maintain equal perceived loudness across the stereo field on headphones.

@@ -39,18 +39,18 @@ from pathlib import Path
 # ─────────────────────────────────────────────────────────────────────────────
 
 METER_AR_TO_SLUG: dict[str, str] = {
-    "الطويل":   "taweel",
-    "الكامل":   "kamil",
-    "البسيط":   "baseet",
-    "الوافر":   "wafir",
-    "الرمل":    "ramal",
-    "الرجز":    "rajaz",
-    "الخفيف":   "khafeef",
+    "الطويل": "taweel",
+    "الكامل": "kamil",
+    "البسيط": "baseet",
+    "الوافر": "wafir",
+    "الرمل": "ramal",
+    "الرجز": "rajaz",
+    "الخفيف": "khafeef",
     "المتقارب": "mutaqarib",
-    "الهزج":    "hazaj",
-    "السريع":   "sari",
+    "الهزج": "hazaj",
+    "السريع": "sari",
     "المتدارك": "mutadarak",
-    "المديد":   "madeed",
+    "المديد": "madeed",
 }
 
 # Inverse mapping (slug → Arabic) — built once at import time
@@ -61,29 +61,31 @@ SLUG_TO_METER_AR: dict[str, str] = {v: k for k, v in METER_AR_TO_SLUG.items()}
 #  Data model
 # ─────────────────────────────────────────────────────────────────────────────
 
+
 @dataclass(frozen=True)
 class IqaaRecord:
     """One row from arabic_rhythm_data.json, fully typed."""
 
-    meter_slug: str           # ASCII slug derived from meter_ar
-    meter_ar: str             # Arabic name of the poetic meter
-    iqaa: str                 # Human-readable iqaa name (e.g. "Sama'i Darij")
-    is_traditional: bool      # Traditional pairing vs contemporary experiment
-    mood_en: str              # English mood description
-    geographic_tradition: str # "Pan-Arab", "Masri", "Shami", "Andalusi", etc.
-    variant_slug: str         # ASCII slug for the iqaa (used as pattern key)
-    default_bpm: int          # Canonical tempo for this pairing
+    meter_slug: str  # ASCII slug derived from meter_ar
+    meter_ar: str  # Arabic name of the poetic meter
+    iqaa: str  # Human-readable iqaa name (e.g. "Sama'i Darij")
+    is_traditional: bool  # Traditional pairing vs contemporary experiment
+    mood_en: str  # English mood description
+    geographic_tradition: str  # "Pan-Arab", "Masri", "Shami", "Andalusi", etc.
+    variant_slug: str  # ASCII slug for the iqaa (used as pattern key)
+    default_bpm: int  # Canonical tempo for this pairing
     bpm_range: tuple[int, int]  # (min_bpm, max_bpm) valid range
-    steps_per_bar: int        # Step grid length
-    instrument_context: str   # "doumbek solo", "firqa", "tabl + riq", etc.
-    performance_notes: str    # DUM/TEK/KA placement description
-    syllable_pattern: str     # Mora-notation string (∪ / —)
-    corpus_pct: float         # Approximate % of classical corpus using this meter
+    steps_per_bar: int  # Step grid length
+    instrument_context: str  # "doumbek solo", "firqa", "tabl + riq", etc.
+    performance_notes: str  # DUM/TEK/KA placement description
+    syllable_pattern: str  # Mora-notation string (∪ / —)
+    corpus_pct: float  # Approximate % of classical corpus using this meter
 
 
 # ─────────────────────────────────────────────────────────────────────────────
 #  Loader
 # ─────────────────────────────────────────────────────────────────────────────
+
 
 def load_registry(json_path: Path) -> dict[str, list[IqaaRecord]]:
     """Load arabic_rhythm_data.json and return a meter_slug → [IqaaRecord] dict.
@@ -160,6 +162,7 @@ def load_registry(json_path: Path) -> dict[str, list[IqaaRecord]]:
 #  Validator
 # ─────────────────────────────────────────────────────────────────────────────
 
+
 def validate_registry(
     registry: dict[str, list[IqaaRecord]],
     pattern_registry: dict[tuple[str, int], dict],
@@ -197,6 +200,7 @@ def validate_registry(
 #  BUHOOR-dict validator (Phase 1 cross-check)
 # ─────────────────────────────────────────────────────────────────────────────
 
+
 def validate_buhoor_patterns(
     buhoor: dict,
     pattern_registry: dict[tuple[str, int], dict],
@@ -217,15 +221,14 @@ def validate_buhoor_patterns(
         for variant in bahr["variants"]:
             slug = variant["name"]
             if (slug, steps) not in pattern_registry:
-                gaps.append(
-                    f"  MISSING  {meter_slug:<12} | {slug:<28} | {steps} steps"
-                )
+                gaps.append(f"  MISSING  {meter_slug:<12} | {slug:<28} | {steps} steps")
     return gaps
 
 
 # ─────────────────────────────────────────────────────────────────────────────
 #  Summary helpers
 # ─────────────────────────────────────────────────────────────────────────────
+
 
 def registry_summary(
     registry: dict[str, list[IqaaRecord]],
@@ -234,7 +237,8 @@ def registry_summary(
     """Return a multi-line human-readable summary of registry coverage."""
     total_records = sum(len(v) for v in registry.values())
     covered = sum(
-        1 for records in registry.values()
+        1
+        for records in registry.values()
         for rec in records
         if (rec.variant_slug, rec.steps_per_bar) in pattern_registry
     )
@@ -242,9 +246,7 @@ def registry_summary(
         {rec.steps_per_bar for records in registry.values() for rec in records}
     )
     trad_count = sum(
-        1 for records in registry.values()
-        for rec in records
-        if rec.is_traditional
+        1 for records in registry.values() for rec in records if rec.is_traditional
     )
     geo_counts: dict[str, int] = {}
     for records in registry.values():
@@ -257,7 +259,8 @@ def registry_summary(
         f"  JSON records loaded : {total_records}",
         f"  Patterns available  : {covered} / {total_records}"
         + ("   ✅" if covered == total_records else ""),
-        f"  Step groups present : {', '.join(str(s) for s in step_groups)}",
+        f"  Step groups covered : {', '.join(str(s) for s in step_groups)}",
+        "",
         f"  Missing patterns    : {total_records - covered}",
         "",
         f"  Tradition breakdown :",
@@ -267,6 +270,6 @@ def registry_summary(
         f"  Geographic breakdown:",
     ]
     for geo, count in sorted(geo_counts.items(), key=lambda x: -x[1]):
-        lines.append(f"    {geo:<16}: {count:>3}")
+        lines.append(f"    {geo:<11}: {count:>2}")
 
     return "\n".join(lines)
