@@ -1,0 +1,666 @@
+{
+  "generated_at": "2026-04-29T16:35:10.838175+00:00",
+  "seed": 42,
+  "files": [
+    {
+      "filename": "taweel_mudawwar_masri_80bpm.mp3",
+      "meter_ar": "الطويل",
+      "iqaa": "Mudawwar Masri",
+      "is_traditional": true,
+      "bpm": 80,
+      "bpm_range": [
+        60,
+        104
+      ],
+      "steps_per_bar": 12,
+      "geographic_tradition": "Masri",
+      "instrument_context": "firqa",
+      "performance_notes": "DUM on beat 1 and beat 7 of the 12-beat cycle; light tek ornaments at beat 5. Al-Ṭawīl's long half-verse aligns with the 12-unit span; maintain stately, unhurried tempo."
+    },
+    {
+      "filename": "taweel_wahda_kabira_72bpm.mp3",
+      "meter_ar": "الطويل",
+      "iqaa": "Wahda Kabira",
+      "is_traditional": true,
+      "bpm": 72,
+      "bpm_range": [
+        52,
+        96
+      ],
+      "steps_per_bar": 8,
+      "geographic_tradition": "Pan-Arab",
+      "instrument_context": "firqa",
+      "performance_notes": "DUM on beat 1; tek fills on beats 3 and 5. The 8-beat Wahda Kabira cycle pairs with Al-Ṭawīl's half-verse moras; keep tempo restrained to honor the meter's epic weight."
+    },
+    {
+      "filename": "taweel_masmudi_kabir_72bpm.mp3",
+      "meter_ar": "الطويل",
+      "iqaa": "Masmudi Kabir",
+      "is_traditional": true,
+      "bpm": 72,
+      "bpm_range": [
+        52,
+        96
+      ],
+      "steps_per_bar": 8,
+      "geographic_tradition": "Masri",
+      "instrument_context": "firqa",
+      "performance_notes": "DUM on beats 1 and 5; ka strokes on 3 and 7 provide subtle lift. Masmudi Kabir's steady 8-beat pulse supports Al-Ṭawīl's measured cadence; avoid ornamentation that disrupts the verse's epic sweep."
+    },
+    {
+      "filename": "taweel_warshan_arabi_68bpm.mp3",
+      "meter_ar": "الطويل",
+      "iqaa": "Warshan 'Arabi",
+      "is_traditional": true,
+      "bpm": 68,
+      "bpm_range": [
+        52,
+        88
+      ],
+      "steps_per_bar": 32,
+      "geographic_tradition": "Pan-Arab",
+      "instrument_context": "firqa",
+      "performance_notes": "DUM anchors the opening of each foot-group across the 32-unit span; minimal fills preserve classical gravitas. Al-Ṭawīl's full verse maps onto the extended Warshan cycle with regal austerity."
+    },
+    {
+      "filename": "kamil_sama3i_darij_96bpm.mp3",
+      "meter_ar": "الكامل",
+      "iqaa": "Sama'i Darij",
+      "is_traditional": true,
+      "bpm": 96,
+      "bpm_range": [
+        72,
+        120
+      ],
+      "steps_per_bar": 21,
+      "geographic_tradition": "Pan-Arab",
+      "instrument_context": "doumbek solo",
+      "performance_notes": "DUM on beat 1; light tek on beat 2, ka on beat 3. Each مُتَفَاعِلُنْ foot aligns with one 3/4 bar; ornamental fills at the cycle's end accelerate toward the qaflah."
+    },
+    {
+      "filename": "kamil_yuruk_semai_132bpm.mp3",
+      "meter_ar": "الكامل",
+      "iqaa": "Yuruk Semai",
+      "is_traditional": true,
+      "bpm": 132,
+      "bpm_range": [
+        108,
+        168
+      ],
+      "steps_per_bar": 6,
+      "geographic_tradition": "Pan-Arab",
+      "instrument_context": "firqa",
+      "performance_notes": "DUM on beat 1; tek on beat 4, ka ornaments on 3 and 6. One Yuruk Semai bar equals two مُتَفَاعِلُنْ feet; the lively compound feel energizes Al-Kāmil's lyrical flow."
+    },
+    {
+      "filename": "kamil_sudasi_88bpm.mp3",
+      "meter_ar": "الكامل",
+      "iqaa": "Sudasi",
+      "is_traditional": false,
+      "bpm": 88,
+      "bpm_range": [
+        68,
+        112
+      ],
+      "steps_per_bar": 6,
+      "geographic_tradition": "Pan-Arab",
+      "instrument_context": "firqa",
+      "performance_notes": "DUM on beats 1 and 4; tek-ka fill on beat 3. Sudasi's 6-beat frame holds two مُتَفَاعِلُنْ feet; maintain moderate tempo to let Al-Kāmil's folk-lyrical quality breathe."
+    },
+    {
+      "filename": "baseet_maqsum_100bpm.mp3",
+      "meter_ar": "البسيط",
+      "iqaa": "Maqsum",
+      "is_traditional": true,
+      "bpm": 100,
+      "bpm_range": [
+        72,
+        132
+      ],
+      "steps_per_bar": 4,
+      "geographic_tradition": "Pan-Arab",
+      "instrument_context": "doumbek solo",
+      "performance_notes": "DUM on beats 1 and 3; tek on 2 and 4. Al-Basīṭ's binary stress of مستفعلن aligns squarely with Maqsum's DUM-tek grid; keep tempo firm and even to project oratorical clarity."
+    },
+    {
+      "filename": "baseet_wahda_80bpm.mp3",
+      "meter_ar": "البسيط",
+      "iqaa": "Wahda",
+      "is_traditional": true,
+      "bpm": 80,
+      "bpm_range": [
+        60,
+        108
+      ],
+      "steps_per_bar": 4,
+      "geographic_tradition": "Pan-Arab",
+      "instrument_context": "firqa",
+      "performance_notes": "DUM on beat 1; tek-ka ornaments in the second half of the bar. Wahda's single strong DUM reinforces Al-Basīṭ's opening long syllable; tempo should feel deliberate, allowing the verse's weight to resonate."
+    },
+    {
+      "filename": "baseet_nawakht_92bpm.mp3",
+      "meter_ar": "البسيط",
+      "iqaa": "Nawakht",
+      "is_traditional": false,
+      "bpm": 92,
+      "bpm_range": [
+        68,
+        116
+      ],
+      "steps_per_bar": 7,
+      "geographic_tradition": "Shami",
+      "instrument_context": "mixed ensemble",
+      "performance_notes": "DUM on beat 1; tek on beat 4; ka on beat 5. Nawakht's 4+3 division echoes مستفعلن+فاعلن; Al-Basīṭ's binary structure settles naturally but requires careful metric alignment in performance."
+    },
+    {
+      "filename": "baseet_saidi_108bpm.mp3",
+      "meter_ar": "البسيط",
+      "iqaa": "Sa'idi",
+      "is_traditional": false,
+      "bpm": 108,
+      "bpm_range": [
+        84,
+        140
+      ],
+      "steps_per_bar": 4,
+      "geographic_tradition": "Masri",
+      "instrument_context": "tabl + riq",
+      "performance_notes": "DUM-DUM-tek-DUM pattern of Sa'idi gives Al-Basīṭ a folk-oratorical drive; the opening double-DUM lands on the long syllable of مستفعلن, amplifying its declamatory force."
+    },
+    {
+      "filename": "wafir_sama3i_darij_96bpm.mp3",
+      "meter_ar": "الوافر",
+      "iqaa": "Sama'i Darij",
+      "is_traditional": true,
+      "bpm": 96,
+      "bpm_range": [
+        72,
+        120
+      ],
+      "steps_per_bar": 21,
+      "geographic_tradition": "Pan-Arab",
+      "instrument_context": "doumbek solo",
+      "performance_notes": "DUM on beat 1 of each 3/4 bar; the swaying مُفَاعَلَتُنْ foot mirrors Sama'i Darij's compound pulse. Light ornamental fills on beat 3 enhance Al-Wāfir's emotional sway."
+    },
+    {
+      "filename": "wafir_yuruk_semai_132bpm.mp3",
+      "meter_ar": "الوافر",
+      "iqaa": "Yuruk Semai",
+      "is_traditional": false,
+      "bpm": 132,
+      "bpm_range": [
+        108,
+        168
+      ],
+      "steps_per_bar": 6,
+      "geographic_tradition": "Pan-Arab",
+      "instrument_context": "firqa",
+      "performance_notes": "DUM on beat 1; tek on beat 4; ka fills on 3 and 6. Yuruk Semai's lively compound pulse imparts momentum to Al-Wāfir's emotional sway; performers accelerate through the short foot-ending."
+    },
+    {
+      "filename": "wafir_sama3i_saraband_108bpm.mp3",
+      "meter_ar": "الوافر",
+      "iqaa": "Sama'i Saraband",
+      "is_traditional": false,
+      "bpm": 108,
+      "bpm_range": [
+        84,
+        136
+      ],
+      "steps_per_bar": 21,
+      "geographic_tradition": "Andalusi",
+      "instrument_context": "mixed ensemble",
+      "performance_notes": "DUM on the downbeat of each 3/8 bar; light tek on beat 2, ka ornament on beat 3. The faster ternary pulse of Sama'i Saraband brings out Al-Wāfir's swaying emotional quality."
+    },
+    {
+      "filename": "ramal_wahda_80bpm.mp3",
+      "meter_ar": "الرمل",
+      "iqaa": "Wahda",
+      "is_traditional": true,
+      "bpm": 80,
+      "bpm_range": [
+        60,
+        108
+      ],
+      "steps_per_bar": 4,
+      "geographic_tradition": "Pan-Arab",
+      "instrument_context": "firqa",
+      "performance_notes": "DUM on beat 1; soft tek-ka fills on beats 2 and 3. Wahda's flowing single-DUM cycle suits Al-Ramal's gentle غزل character; tempo should feel like a languid, unhurried sway."
+    },
+    {
+      "filename": "ramal_maqsum_100bpm.mp3",
+      "meter_ar": "الرمل",
+      "iqaa": "Maqsum",
+      "is_traditional": true,
+      "bpm": 100,
+      "bpm_range": [
+        72,
+        132
+      ],
+      "steps_per_bar": 4,
+      "geographic_tradition": "Pan-Arab",
+      "instrument_context": "doumbek solo",
+      "performance_notes": "DUM on 1 and 3; light tek on 2 and 4. Maqsum drives Al-Ramal at a brisker tarab pace; subtle ka ornaments on the second beat soften the pulse to suit the meter's delicacy."
+    },
+    {
+      "filename": "ramal_sama3i_darij_96bpm.mp3",
+      "meter_ar": "الرمل",
+      "iqaa": "Sama'i Darij",
+      "is_traditional": true,
+      "bpm": 96,
+      "bpm_range": [
+        72,
+        120
+      ],
+      "steps_per_bar": 21,
+      "geographic_tradition": "Pan-Arab",
+      "instrument_context": "mixed ensemble",
+      "performance_notes": "DUM on bar 1 of the 7-bar Sama'i Darij cycle; gentle tek-ka fills highlight فَاعِلَاتُنْ's swing. Al-Ramal's supple character surfaces naturally in muwashshah and qudud settings."
+    },
+    {
+      "filename": "ramal_sama3i_thaqil_60bpm.mp3",
+      "meter_ar": "الرمل",
+      "iqaa": "Sama'i Thaqil",
+      "is_traditional": true,
+      "bpm": 60,
+      "bpm_range": [
+        48,
+        84
+      ],
+      "steps_per_bar": 10,
+      "geographic_tradition": "Pan-Arab",
+      "instrument_context": "firqa",
+      "performance_notes": "DUM on beat 1; tek on beat 3; second DUM on beat 7 of the 10-beat cycle. Al-Ramal's muwashshah settings traditionally use Sama'i Thaqil; tempo is deliberate and stately."
+    },
+    {
+      "filename": "rajaz_maqsum_100bpm.mp3",
+      "meter_ar": "الرجز",
+      "iqaa": "Maqsum",
+      "is_traditional": true,
+      "bpm": 100,
+      "bpm_range": [
+        72,
+        132
+      ],
+      "steps_per_bar": 4,
+      "geographic_tradition": "Pan-Arab",
+      "instrument_context": "doumbek solo",
+      "performance_notes": "DUM on beats 1 and 3; tek on 2 and 4. Maqsum's symmetrical DUM-tek pairs map cleanly onto مُسْتَفْعِلُنْ's even stress; keep steady tempo to support Al-Rajaz's didactic narrative flow."
+    },
+    {
+      "filename": "rajaz_wahda_80bpm.mp3",
+      "meter_ar": "الرجز",
+      "iqaa": "Wahda",
+      "is_traditional": true,
+      "bpm": 80,
+      "bpm_range": [
+        60,
+        108
+      ],
+      "steps_per_bar": 4,
+      "geographic_tradition": "Pan-Arab",
+      "instrument_context": "firqa",
+      "performance_notes": "DUM on beat 1; tek-ka fills on beats 2–3; gentle resolution on beat 4. Wahda's measured single-DUM cycle gives Al-Rajaz's narrative verse a calm, recitative quality."
+    },
+    {
+      "filename": "rajaz_baladi_96bpm.mp3",
+      "meter_ar": "الرجز",
+      "iqaa": "Baladi",
+      "is_traditional": true,
+      "bpm": 96,
+      "bpm_range": [
+        72,
+        120
+      ],
+      "steps_per_bar": 4,
+      "geographic_tradition": "Masri",
+      "instrument_context": "tabl + riq",
+      "performance_notes": "DUM-DUM-tek-tek-DUM of Baladi lends Al-Rajaz a warm folk flavor; the first DUM aligns with مستفعلن's opening stress. Moderate fills; avoid heavy ornamentation that disrupts narrative clarity."
+    },
+    {
+      "filename": "rajaz_mudawwar_masri_80bpm.mp3",
+      "meter_ar": "الرجز",
+      "iqaa": "Mudawwar Masri",
+      "is_traditional": false,
+      "bpm": 80,
+      "bpm_range": [
+        60,
+        104
+      ],
+      "steps_per_bar": 12,
+      "geographic_tradition": "Masri",
+      "instrument_context": "firqa",
+      "performance_notes": "DUM on beat 1 and beat 7; tek ornaments at beat 4. The 12-unit Mudawwar Masri cycle accommodates a full Al-Rajaz half-verse; maintain deliberate pace to serve the didactic text."
+    },
+    {
+      "filename": "khafeef_sama3i_thaqil_60bpm.mp3",
+      "meter_ar": "الخفيف",
+      "iqaa": "Sama'i Thaqil",
+      "is_traditional": true,
+      "bpm": 60,
+      "bpm_range": [
+        48,
+        84
+      ],
+      "steps_per_bar": 10,
+      "geographic_tradition": "Andalusi",
+      "instrument_context": "firqa",
+      "performance_notes": "DUM on beat 1; tek on beat 3; second DUM on beat 7. The 10-beat Sama'i Thaqil maps onto فاعلاتن مستفعلن فاعلاتن's mixed syllabic units; a canonical muwashshah pairing since the 10th century."
+    },
+    {
+      "filename": "khafeef_jurjina_60bpm.mp3",
+      "meter_ar": "الخفيف",
+      "iqaa": "Jurjina",
+      "is_traditional": true,
+      "bpm": 60,
+      "bpm_range": [
+        48,
+        80
+      ],
+      "steps_per_bar": 10,
+      "geographic_tradition": "Pan-Arab",
+      "instrument_context": "firqa",
+      "performance_notes": "DUM on beat 1; tek-ka at beats 4 and 7. Jurjina's slow 10-beat cycle provides expressive space for Al-Khafīf's mixed foot; ornamental ziyāda are applied sparingly between syllable groups."
+    },
+    {
+      "filename": "khafeef_mudawwar_shami_72bpm.mp3",
+      "meter_ar": "الخفيف",
+      "iqaa": "Mudawwar Shami",
+      "is_traditional": true,
+      "bpm": 72,
+      "bpm_range": [
+        56,
+        96
+      ],
+      "steps_per_bar": 10,
+      "geographic_tradition": "Shami",
+      "instrument_context": "firqa",
+      "performance_notes": "DUM on beat 1; tek on beat 5; ka fills on beats 3 and 8. Mudawwar Shami's 10-beat Levantine cycle frames Al-Khafīf elegantly in Syrian muwashshah; sustain legato between strokes."
+    },
+    {
+      "filename": "khafeef_masmudi_kabir_72bpm.mp3",
+      "meter_ar": "الخفيف",
+      "iqaa": "Masmudi Kabir",
+      "is_traditional": false,
+      "bpm": 72,
+      "bpm_range": [
+        52,
+        96
+      ],
+      "steps_per_bar": 8,
+      "geographic_tradition": "Masri",
+      "instrument_context": "firqa",
+      "performance_notes": "DUM on beats 1 and 5; tek on 3 and 7. The 8-beat Masmudi Kabir requires textual adaptation to fit Al-Khafīf's 10-unit mixed foot; suitable for popular folk-style vocal settings."
+    },
+    {
+      "filename": "mutaqarib_masmudi_kabir_72bpm.mp3",
+      "meter_ar": "المتقارب",
+      "iqaa": "Masmudi Kabir",
+      "is_traditional": true,
+      "bpm": 72,
+      "bpm_range": [
+        52,
+        96
+      ],
+      "steps_per_bar": 8,
+      "geographic_tradition": "Masri",
+      "instrument_context": "firqa",
+      "performance_notes": "DUM on beats 1 and 5; tek on 3 and 7. Eight units accommodate four فَعُولُنْ feet per half-verse; Al-Mutaqārib's epic character is amplified by Masmudi Kabir's stately cadence."
+    },
+    {
+      "filename": "mutaqarib_wahda_kabira_72bpm.mp3",
+      "meter_ar": "المتقارب",
+      "iqaa": "Wahda Kabira",
+      "is_traditional": true,
+      "bpm": 72,
+      "bpm_range": [
+        52,
+        96
+      ],
+      "steps_per_bar": 8,
+      "geographic_tradition": "Pan-Arab",
+      "instrument_context": "firqa",
+      "performance_notes": "Single DUM on beat 1; tek-ka fills at beat 5. Wahda Kabira's slow 8-beat cycle gives Al-Mutaqārib's heroic verse a grand processional feel; avoid rushed ornamental fills."
+    },
+    {
+      "filename": "mutaqarib_ciftetelli_76bpm.mp3",
+      "meter_ar": "المتقارب",
+      "iqaa": "Ciftetelli",
+      "is_traditional": false,
+      "bpm": 76,
+      "bpm_range": [
+        56,
+        100
+      ],
+      "steps_per_bar": 8,
+      "geographic_tradition": "Shami",
+      "instrument_context": "mixed ensemble",
+      "performance_notes": "DUM on beat 1; syncopated tek on beat 3-and; ka ornaments throughout. Ciftetelli's Ottoman-Arab flavor lends Al-Mutaqārib an exotic epic color; maintain sensuous legato between strokes."
+    },
+    {
+      "filename": "mutaqarib_maqsum_100bpm.mp3",
+      "meter_ar": "المتقارب",
+      "iqaa": "Maqsum",
+      "is_traditional": true,
+      "bpm": 100,
+      "bpm_range": [
+        72,
+        132
+      ],
+      "steps_per_bar": 4,
+      "geographic_tradition": "Pan-Arab",
+      "instrument_context": "doumbek solo",
+      "performance_notes": "DUM on 1 and 3; tek on 2 and 4. Maqsum's faster 4-beat frame suits Al-Mutaqārib in nashīd and patriotic settings; tek fills on offbeats sharpen the heroic forward drive."
+    },
+    {
+      "filename": "hazaj_malfuf_140bpm.mp3",
+      "meter_ar": "الهزج",
+      "iqaa": "Malfuf",
+      "is_traditional": true,
+      "bpm": 140,
+      "bpm_range": [
+        110,
+        180
+      ],
+      "steps_per_bar": 4,
+      "geographic_tradition": "Pan-Arab",
+      "instrument_context": "doumbek solo",
+      "performance_notes": "DUM on beat 1; tek-ka on the second eighth note; rapid ziyāda fills between DUM strokes heighten Al-Hazaj's festive energy. Drive tempo upward during vocal refrains."
+    },
+    {
+      "filename": "hazaj_ayyub_120bpm.mp3",
+      "meter_ar": "الهزج",
+      "iqaa": "Ayyub",
+      "is_traditional": true,
+      "bpm": 120,
+      "bpm_range": [
+        96,
+        152
+      ],
+      "steps_per_bar": 4,
+      "geographic_tradition": "Pan-Arab",
+      "instrument_context": "doumbek solo",
+      "performance_notes": "DUM-tek-tek-DUM pattern pairs naturally with مَفَاعِيلُنْ's long syllable; light ka ornaments on offbeats. Moderate tempo suits Al-Hazaj's cheerful folk character without losing rhythmic clarity."
+    },
+    {
+      "filename": "hazaj_wahda_saghira_116bpm.mp3",
+      "meter_ar": "الهزج",
+      "iqaa": "Wahda Saghira",
+      "is_traditional": false,
+      "bpm": 116,
+      "bpm_range": [
+        92,
+        148
+      ],
+      "steps_per_bar": 4,
+      "geographic_tradition": "Pan-Arab",
+      "instrument_context": "doumbek solo",
+      "performance_notes": "DUM on beat 1; tek-ka fills on the second half of the bar. Wahda Saghira moderates Al-Hazaj's festive pace; light ornamental rolls sustain forward motion through مَفَاعِيلُنْ's extended syllable."
+    },
+    {
+      "filename": "sari_malfuf_140bpm.mp3",
+      "meter_ar": "السريع",
+      "iqaa": "Malfuf",
+      "is_traditional": true,
+      "bpm": 140,
+      "bpm_range": [
+        110,
+        180
+      ],
+      "steps_per_bar": 4,
+      "geographic_tradition": "Pan-Arab",
+      "instrument_context": "doumbek solo",
+      "performance_notes": "DUM on the downbeat; rapid tek-tek-ka fills on the second beat drive Al-Sarī's energetic forward motion. Ziyāda ornaments between DUM strokes match the meter's brisk syllabic pace."
+    },
+    {
+      "filename": "sari_fallahi_120bpm.mp3",
+      "meter_ar": "السريع",
+      "iqaa": "Fallahi",
+      "is_traditional": true,
+      "bpm": 120,
+      "bpm_range": [
+        96,
+        156
+      ],
+      "steps_per_bar": 4,
+      "geographic_tradition": "Masri",
+      "instrument_context": "tabl + riq",
+      "performance_notes": "DUM-tek-DUM-tek of Fallahi maps onto مستفعلن مستفعلن; the double DUM reinforces Al-Sarī's driving energy. Folk ornamental fills suit open-air ensemble performance contexts."
+    },
+    {
+      "filename": "sari_ayyub_120bpm.mp3",
+      "meter_ar": "السريع",
+      "iqaa": "Ayyub",
+      "is_traditional": false,
+      "bpm": 120,
+      "bpm_range": [
+        96,
+        152
+      ],
+      "steps_per_bar": 4,
+      "geographic_tradition": "Pan-Arab",
+      "instrument_context": "doumbek solo",
+      "performance_notes": "DUM-tek-tek-DUM of Ayyub provides syncopated contrast to Al-Sarī's even stress; use light ka ornaments on the second eighth note to maintain the meter's energetic momentum."
+    },
+    {
+      "filename": "sari_wahda_saghira_116bpm.mp3",
+      "meter_ar": "السريع",
+      "iqaa": "Wahda Saghira",
+      "is_traditional": false,
+      "bpm": 116,
+      "bpm_range": [
+        92,
+        148
+      ],
+      "steps_per_bar": 4,
+      "geographic_tradition": "Pan-Arab",
+      "instrument_context": "doumbek solo",
+      "performance_notes": "DUM on beat 1; tek-ka ornaments on the second half. Wahda Saghira at moderate tempo suits more controlled renditions of Al-Sarī; pace remains vivacious while allowing textual intelligibility."
+    },
+    {
+      "filename": "mutadarak_maqsum_100bpm.mp3",
+      "meter_ar": "المتدارك",
+      "iqaa": "Maqsum",
+      "is_traditional": true,
+      "bpm": 100,
+      "bpm_range": [
+        72,
+        132
+      ],
+      "steps_per_bar": 4,
+      "geographic_tradition": "Pan-Arab",
+      "instrument_context": "doumbek solo",
+      "performance_notes": "DUM on 1 and 3; tek on 2 and 4. Maqsum's binary pulse cleanly accommodates فَاعِلُنْ's stress pairs; this is the most idiomatic pairing for contemporary Al-Mutadārak settings."
+    },
+    {
+      "filename": "mutadarak_malfuf_140bpm.mp3",
+      "meter_ar": "المتدارك",
+      "iqaa": "Malfuf",
+      "is_traditional": true,
+      "bpm": 140,
+      "bpm_range": [
+        110,
+        180
+      ],
+      "steps_per_bar": 4,
+      "geographic_tradition": "Pan-Arab",
+      "instrument_context": "doumbek solo",
+      "performance_notes": "DUM on the downbeat; rapid tek-ka ornaments fill the second beat. Malfuf's breakneck pace showcases Al-Mutadārak's fluid syllabic chain; ziyāda rolls between DUM strokes amplify the meter's modern energy."
+    },
+    {
+      "filename": "mutadarak_fallahi_120bpm.mp3",
+      "meter_ar": "المتدارك",
+      "iqaa": "Fallahi",
+      "is_traditional": false,
+      "bpm": 120,
+      "bpm_range": [
+        96,
+        156
+      ],
+      "steps_per_bar": 4,
+      "geographic_tradition": "Masri",
+      "instrument_context": "tabl + riq",
+      "performance_notes": "DUM-tek-DUM-tek of Fallahi drives Al-Mutadārak at a folk pace; the even DUM placement aligns with فَاعِلُنْ's stress. Light riq fills add a rural Egyptian texture to the verse."
+    },
+    {
+      "filename": "mutadarak_wahda_80bpm.mp3",
+      "meter_ar": "المتدارك",
+      "iqaa": "Wahda",
+      "is_traditional": true,
+      "bpm": 80,
+      "bpm_range": [
+        60,
+        108
+      ],
+      "steps_per_bar": 4,
+      "geographic_tradition": "Pan-Arab",
+      "instrument_context": "firqa",
+      "performance_notes": "DUM on beat 1; tek-ka ornaments at beats 2–3; gentle resolution on beat 4. Wahda's measured cycle suits calmer Al-Mutadārak settings; space between strokes allows melodic phrasing to resonate."
+    },
+    {
+      "filename": "madeed_nawakht_92bpm.mp3",
+      "meter_ar": "المديد",
+      "iqaa": "Nawakht",
+      "is_traditional": true,
+      "bpm": 92,
+      "bpm_range": [
+        68,
+        116
+      ],
+      "steps_per_bar": 7,
+      "geographic_tradition": "Shami",
+      "instrument_context": "mixed ensemble",
+      "performance_notes": "DUM on beat 1; tek on beat 4; ka on beat 5. Nawakht's 4+3 division maps precisely onto فَاعِلَاتُنْ+فَاعِلُنْ; Al-Madīd's elegiac tone is served by restrained ornaments and measured pace."
+    },
+    {
+      "filename": "madeed_dawr_hindi_100bpm.mp3",
+      "meter_ar": "المديد",
+      "iqaa": "Dawr Hindi",
+      "is_traditional": false,
+      "bpm": 100,
+      "bpm_range": [
+        80,
+        128
+      ],
+      "steps_per_bar": 7,
+      "geographic_tradition": "Pan-Arab",
+      "instrument_context": "mixed ensemble",
+      "performance_notes": "DUM on beat 1; tek on beat 4; light ka on beat 6. Dawr Hindi's lighter 7/8 feel gives Al-Madīd's elegiac verse a floating quality; ornamental fills are used sparingly throughout."
+    },
+    {
+      "filename": "madeed_sama3i_darij_96bpm.mp3",
+      "meter_ar": "المديد",
+      "iqaa": "Sama'i Darij",
+      "is_traditional": false,
+      "bpm": 96,
+      "bpm_range": [
+        72,
+        120
+      ],
+      "steps_per_bar": 21,
+      "geographic_tradition": "Pan-Arab",
+      "instrument_context": "mixed ensemble",
+      "performance_notes": "DUM on beat 1 of each 3/4 bar; soft tek ornaments on beat 2. Sama'i Darij requires textual adjustment to fit Al-Madīd's 4+3 foot; used only in Andalusian qudud contexts."
+    }
+  ]
+}

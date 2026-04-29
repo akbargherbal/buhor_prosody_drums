@@ -566,6 +566,9 @@ def generate_bahr(
     results = []
     header_printed = False
 
+    bahr_output_dir = os.path.join(output_dir, key.upper())
+    os.makedirs(bahr_output_dir, exist_ok=True)
+
     for variant in bahr["variants"]:
         # Phase 4: Apply Filters
         if variant_filter and variant["name"] not in variant_filter:
@@ -601,7 +604,7 @@ def generate_bahr(
             key,
             variant,
             bars,
-            output_dir=output_dir,
+            output_dir=bahr_output_dir,
             bitrate=bitrate,
             jitter=jitter,
             velocity_variance=velocity_variance,
