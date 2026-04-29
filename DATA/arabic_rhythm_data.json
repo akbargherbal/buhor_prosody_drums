@@ -1,0 +1,57 @@
+[
+  {"meter_ar":"الطويل","meter_la":"Al-Ṭawīl","taf3ila":"فَعُولُنْ مَفَاعِيلُنْ × ٤","foot_type":"ثنائي","characters":["فخم","ملحمي","واسع"],"iqaa":"Mudawwar Masri","time_sig":"12/4","compatibility":3,"rationale":"١٢ وحدة إيقاعية تحتضن الشطر بتناسب ممتاز"},
+  {"meter_ar":"الطويل","meter_la":"Al-Ṭawīl","taf3ila":"فَعُولُنْ مَفَاعِيلُنْ × ٤","foot_type":"ثنائي","characters":["فخم","ملحمي","واسع"],"iqaa":"Wahda Kabira","time_sig":"8/4","compatibility":2,"rationale":"مقياسان بوتيرة هادئة يكسوانه الفخامة المطلوبة"},
+  {"meter_ar":"الطويل","meter_la":"Al-Ṭawīl","taf3ila":"فَعُولُنْ مَفَاعِيلُنْ × ٤","foot_type":"ثنائي","characters":["فخم","ملحمي","واسع"],"iqaa":"Masmudi Kabir","time_sig":"8/4","compatibility":2,"rationale":"يناسب الأداء المتمهل الرصين"},
+  {"meter_ar":"الطويل","meter_la":"Al-Ṭawīl","taf3ila":"فَعُولُنْ مَفَاعِيلُنْ × ٤","foot_type":"ثنائي","characters":["فخم","ملحمي","واسع"],"iqaa":"Warshan 'Arabi","time_sig":"32/4","compatibility":2,"rationale":"للقصيدة الكاملة في النمط الكلاسيكي الممتد"},
+
+  {"meter_ar":"البسيط","meter_la":"Al-Basīṭ","taf3ila":"مُسْتَفْعِلُنْ فَاعِلُنْ × ٤","foot_type":"ثنائي","characters":["قوي","خطابي","مباشر"],"iqaa":"Maqsum","time_sig":"4/4","compatibility":3,"rationale":"الأنسب والأشيع لهذا البحر في الأغنية العربية"},
+  {"meter_ar":"البسيط","meter_la":"Al-Basīṭ","taf3ila":"مُسْتَفْعِلُنْ فَاعِلُنْ × ٤","foot_type":"ثنائي","characters":["قوي","خطابي","مباشر"],"iqaa":"Wahda","time_sig":"4/4","compatibility":3,"rationale":"ينسجم مع نبره الثنائي الحازم"},
+  {"meter_ar":"البسيط","meter_la":"Al-Basīṭ","taf3ila":"مُسْتَفْعِلُنْ فَاعِلُنْ × ٤","foot_type":"ثنائي","characters":["قوي","خطابي","مباشر"],"iqaa":"Nawakht","time_sig":"7/4","compatibility":2,"rationale":"تقسيم ٤+٣ يعكس تفعيلة مستفعلن+فاعلن بدقة"},
+  {"meter_ar":"البسيط","meter_la":"Al-Basīṭ","taf3ila":"مُسْتَفْعِلُنْ فَاعِلُنْ × ٤","foot_type":"ثنائي","characters":["قوي","خطابي","مباشر"],"iqaa":"Sa'idi","time_sig":"4/4","compatibility":2,"rationale":"يلائم طابعه الخطابي الحازم"},
+
+  {"meter_ar":"الكامل","meter_la":"Al-Kāmil","taf3ila":"مُتَفَاعِلُنْ × ٦","foot_type":"ثلاثي","characters":["شعبي","غنائي","سلس"],"iqaa":"Sama'i Darij","time_sig":"3/4","compatibility":3,"rationale":"انسجام كامل: كل تفعيلة = مقياس ٣/٤ واحد"},
+  {"meter_ar":"الكامل","meter_la":"Al-Kāmil","taf3ila":"مُتَفَاعِلُنْ × ٦","foot_type":"ثلاثي","characters":["شعبي","غنائي","سلس"],"iqaa":"Yuruk Semai","time_sig":"6/8","compatibility":3,"rationale":"مقياس = تفعيلتان، طابع خفيف ومتوثب"},
+  {"meter_ar":"الكامل","meter_la":"Al-Kāmil","taf3ila":"مُتَفَاعِلُنْ × ٦","foot_type":"ثلاثي","characters":["شعبي","غنائي","سلس"],"iqaa":"Sudasi","time_sig":"6/4","compatibility":2,"rationale":"مناسب للأداء الشعبي الممتد"},
+
+  {"meter_ar":"الوافر","meter_la":"Al-Wāfir","taf3ila":"مُفَاعَلَتُنْ × ٦","foot_type":"ثلاثي","characters":["حماسي","عاطفي","متمايل"],"iqaa":"Sama'i Darij","time_sig":"3/4","compatibility":3,"rationale":"الطابع الثلاثي يتوافق مع إيقاع مُفَاعَلَتُنْ"},
+  {"meter_ar":"الوافر","meter_la":"Al-Wāfir","taf3ila":"مُفَاعَلَتُنْ × ٦","foot_type":"ثلاثي","characters":["حماسي","عاطفي","متمايل"],"iqaa":"Yuruk Semai","time_sig":"6/8","compatibility":2,"rationale":"يمنحه خفة وانطلاقاً"},
+  {"meter_ar":"الوافر","meter_la":"Al-Wāfir","taf3ila":"مُفَاعَلَتُنْ × ٦","foot_type":"ثلاثي","characters":["حماسي","عاطفي","متمايل"],"iqaa":"Sama'i Saraband","time_sig":"3/8","compatibility":2,"rationale":"الثلاثية الخفيفة تناسب التمايل العاطفي"},
+
+  {"meter_ar":"الهزج","meter_la":"Al-Hazaj","taf3ila":"مَفَاعِيلُنْ × ٤","foot_type":"ثنائي","characters":["فرح","خفيف","احتفالي"],"iqaa":"Malfuf","time_sig":"2/4","compatibility":3,"rationale":"الأنسب: خفته وسرعته تلائمان طابعه المرح"},
+  {"meter_ar":"الهزج","meter_la":"Al-Hazaj","taf3ila":"مَفَاعِيلُنْ × ٤","foot_type":"ثنائي","characters":["فرح","خفيف","احتفالي"],"iqaa":"Ayyub","time_sig":"2/4","compatibility":3,"rationale":"خفيف ومتدفق يناسب الغناء الشعبي"},
+  {"meter_ar":"الهزج","meter_la":"Al-Hazaj","taf3ila":"مَفَاعِيلُنْ × ٤","foot_type":"ثنائي","characters":["فرح","خفيف","احتفالي"],"iqaa":"Wahda Saghira","time_sig":"2/4","compatibility":2,"rationale":"يمنحه بوتيرة معتدلة أكثر رزانة"},
+
+  {"meter_ar":"الرجز","meter_la":"Al-Rajaz","taf3ila":"مُسْتَفْعِلُنْ × ٦","foot_type":"ثنائي","characters":["تعليمي","سردي","مستوٍ"],"iqaa":"Maqsum","time_sig":"4/4","compatibility":3,"rationale":"النبر الثنائي المنتظم يناسب طابعه المتساوي"},
+  {"meter_ar":"الرجز","meter_la":"Al-Rajaz","taf3ila":"مُسْتَفْعِلُنْ × ٦","foot_type":"ثنائي","characters":["تعليمي","سردي","مستوٍ"],"iqaa":"Wahda","time_sig":"4/4","compatibility":3,"rationale":"مناسب للإلقاء السردي المتمهل"},
+  {"meter_ar":"الرجز","meter_la":"Al-Rajaz","taf3ila":"مُسْتَفْعِلُنْ × ٦","foot_type":"ثنائي","characters":["تعليمي","سردي","مستوٍ"],"iqaa":"Baladi","time_sig":"4/4","compatibility":2,"rationale":"يمنحه نكهة شعبية دافئة"},
+  {"meter_ar":"الرجز","meter_la":"Al-Rajaz","taf3ila":"مُسْتَفْعِلُنْ × ٦","foot_type":"ثنائي","characters":["تعليمي","سردي","مستوٍ"],"iqaa":"Mudawwar Masri","time_sig":"12/4","compatibility":2,"rationale":"مقياس واحد = شطر كامل"},
+
+  {"meter_ar":"الرمل","meter_la":"Al-Ramal","taf3ila":"فَاعِلَاتُنْ × ٦","foot_type":"ثنائي","characters":["غزل","رقيق","ناعم"],"iqaa":"Wahda","time_sig":"4/4","compatibility":3,"rationale":"يمنحه انسياباً رقيقاً يلائم الغزل والوجدان"},
+  {"meter_ar":"الرمل","meter_la":"Al-Ramal","taf3ila":"فَاعِلَاتُنْ × ٦","foot_type":"ثنائي","characters":["غزل","رقيق","ناعم"],"iqaa":"Maqsum","time_sig":"4/4","compatibility":2,"rationale":"شائع في أغاني الطرب على هذا البحر"},
+  {"meter_ar":"الرمل","meter_la":"Al-Ramal","taf3ila":"فَاعِلَاتُنْ × ٦","foot_type":"ثنائي","characters":["غزل","رقيق","ناعم"],"iqaa":"Sama'i Darij","time_sig":"3/4","compatibility":2,"rationale":"يبرز ليونته في قوالب الموشح والقدود"},
+  {"meter_ar":"الرمل","meter_la":"Al-Ramal","taf3ila":"فَاعِلَاتُنْ × ٦","foot_type":"ثنائي","characters":["غزل","رقيق","ناعم"],"iqaa":"Sama'i Thaqil","time_sig":"10/8","compatibility":2,"rationale":"الإيقاع التقليدي للموشحات على الرمل"},
+
+  {"meter_ar":"السريع","meter_la":"Al-Sarī'","taf3ila":"مُسْتَفْعِلُنْ مُسْتَفْعِلُنْ فَاعِلُنْ","foot_type":"ثنائي سريع","characters":["سريع","حيوي","متوثب"],"iqaa":"Malfuf","time_sig":"2/4","compatibility":3,"rationale":"الأنسب: سرعته تلائم الحيوية المتوثبة"},
+  {"meter_ar":"السريع","meter_la":"Al-Sarī'","taf3ila":"مُسْتَفْعِلُنْ مُسْتَفْعِلُنْ فَاعِلُنْ","foot_type":"ثنائي سريع","characters":["سريع","حيوي","متوثب"],"iqaa":"Fallahi","time_sig":"2/4","compatibility":3,"rationale":"طابع شعبي خفيف يلائمه تماماً"},
+  {"meter_ar":"السريع","meter_la":"Al-Sarī'","taf3ila":"مُسْتَفْعِلُنْ مُسْتَفْعِلُنْ فَاعِلُنْ","foot_type":"ثنائي سريع","characters":["سريع","حيوي","متوثب"],"iqaa":"Ayyub","time_sig":"2/4","compatibility":2,"rationale":"بديل متساوٍ في السرعة والخفة"},
+  {"meter_ar":"السريع","meter_la":"Al-Sarī'","taf3ila":"مُسْتَفْعِلُنْ مُسْتَفْعِلُنْ فَاعِلُنْ","foot_type":"ثنائي سريع","characters":["سريع","حيوي","متوثب"],"iqaa":"Wahda Saghira","time_sig":"2/4","compatibility":2,"rationale":"يناسب الأداء الأكثر اعتدالاً"},
+
+  {"meter_ar":"الخفيف","meter_la":"Al-Khafīf","taf3ila":"فَاعِلَاتُنْ مُسْتَفْعِلُنْ فَاعِلَاتُنْ","foot_type":"مختلط","characters":["طربي","موشحات","أندلسي"],"iqaa":"Sama'i Thaqil","time_sig":"10/8","compatibility":3,"rationale":"الإيقاع التاريخي للموشحات على الخفيف منذ القرن العاشر"},
+  {"meter_ar":"الخفيف","meter_la":"Al-Khafīf","taf3ila":"فَاعِلَاتُنْ مُسْتَفْعِلُنْ فَاعِلَاتُنْ","foot_type":"مختلط","characters":["طربي","موشحات","أندلسي"],"iqaa":"Jurjina","time_sig":"10/8","compatibility":3,"rationale":"١٠ وحدات تتوافق مع مقاطع الشطر بعد الزحافات"},
+  {"meter_ar":"الخفيف","meter_la":"Al-Khafīf","taf3ila":"فَاعِلَاتُنْ مُسْتَفْعِلُنْ فَاعِلَاتُنْ","foot_type":"مختلط","characters":["طربي","موشحات","أندلسي"],"iqaa":"Mudawwar Shami","time_sig":"10/4","compatibility":2,"rationale":"شائع في الموشحات الشامية على هذا البحر"},
+  {"meter_ar":"الخفيف","meter_la":"Al-Khafīf","taf3ila":"فَاعِلَاتُنْ مُسْتَفْعِلُنْ فَاعِلَاتُنْ","foot_type":"مختلط","characters":["طربي","موشحات","أندلسي"],"iqaa":"Masmudi Kabir","time_sig":"8/4","compatibility":1,"rationale":"ممكن بتمديد الأداء في الغناء الشعبي"},
+
+  {"meter_ar":"المتقارب","meter_la":"Al-Mutaqārib","taf3ila":"فَعُولُنْ × ٨","foot_type":"ثنائي","characters":["ملاحم","بطولي","سردي"],"iqaa":"Masmudi Kabir","time_sig":"8/4","compatibility":3,"rationale":"٨ وحدات = ٤ تفعيلات فعولن في الشطر الواحد"},
+  {"meter_ar":"المتقارب","meter_la":"Al-Mutaqārib","taf3ila":"فَعُولُنْ × ٨","foot_type":"ثنائي","characters":["ملاحم","بطولي","سردي"],"iqaa":"Wahda Kabira","time_sig":"8/4","compatibility":3,"rationale":"يمنحه ثقلاً ملحمياً مناسباً"},
+  {"meter_ar":"المتقارب","meter_la":"Al-Mutaqārib","taf3ila":"فَعُولُنْ × ٨","foot_type":"ثنائي","characters":["ملاحم","بطولي","سردي"],"iqaa":"Ciftetelli","time_sig":"8/4","compatibility":2,"rationale":"نكهة عثمانية-عربية تلائم الفضاء الملحمي"},
+  {"meter_ar":"المتقارب","meter_la":"Al-Mutaqārib","taf3ila":"فَعُولُنْ × ٨","foot_type":"ثنائي","characters":["ملاحم","بطولي","سردي"],"iqaa":"Maqsum","time_sig":"4/4","compatibility":2,"rationale":"بوتيرة أسرع يناسب الأنشودة الوطنية"},
+
+  {"meter_ar":"المتدارك","meter_la":"Al-Mutadārak","taf3ila":"فَاعِلُنْ × ٨","foot_type":"ثنائي سريع","characters":["تجديد","سريع","غنائي"],"iqaa":"Maqsum","time_sig":"4/4","compatibility":3,"rationale":"الأكثر شيوعاً في أغاني المتدارك المعاصرة"},
+  {"meter_ar":"المتدارك","meter_la":"Al-Mutadārak","taf3ila":"فَاعِلُنْ × ٨","foot_type":"ثنائي سريع","characters":["تجديد","سريع","غنائي"],"iqaa":"Malfuf","time_sig":"2/4","compatibility":3,"rationale":"يبرز انسيابيته وسرعته"},
+  {"meter_ar":"المتدارك","meter_la":"Al-Mutadārak","taf3ila":"فَاعِلُنْ × ٨","foot_type":"ثنائي سريع","characters":["تجديد","سريع","غنائي"],"iqaa":"Fallahi","time_sig":"2/4","compatibility":2,"rationale":"يمنحه طابعاً شعبياً منطلقاً"},
+  {"meter_ar":"المتدارك","meter_la":"Al-Mutadārak","taf3ila":"فَاعِلُنْ × ٨","foot_type":"ثنائي سريع","characters":["تجديد","سريع","غنائي"],"iqaa":"Wahda","time_sig":"4/4","compatibility":2,"rationale":"يناسب الغناء المعتدل الأكثر هدوءاً"},
+
+  {"meter_ar":"المديد","meter_la":"Al-Madīd","taf3ila":"فَاعِلَاتُنْ فَاعِلُنْ × ٣","foot_type":"ثنائي ٤+٣","characters":["رثاء","حنين","هادئ"],"iqaa":"Nawakht","time_sig":"7/4","compatibility":3,"rationale":"تقسيم ٤+٣ يطابق فاعلاتن+فاعلن بدقة رياضية نادرة"},
+  {"meter_ar":"المديد","meter_la":"Al-Madīd","taf3ila":"فَاعِلَاتُنْ فَاعِلُنْ × ٣","foot_type":"ثنائي ٤+٣","characters":["رثاء","حنين","هادئ"],"iqaa":"Dawr Hindi","time_sig":"7/8","compatibility":2,"rationale":"٧ وحدات تعكس البنية ذاتها بخفة أكبر"},
+  {"meter_ar":"المديد","meter_la":"Al-Madīd","taf3ila":"فَاعِلَاتُنْ فَاعِلُنْ × ٣","foot_type":"ثنائي ٤+٣","characters":["رثاء","حنين","هادئ"],"iqaa":"Sama'i Darij","time_sig":"3/4","compatibility":1,"rationale":"ممكن في قوالب القدود الأندلسية"}
+]
