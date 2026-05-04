@@ -25,6 +25,7 @@ from pathlib import Path
 from scipy.io import wavfile
 from scipy.signal import butter, sosfilt
 from pydub import AudioSegment
+import tempfile  # <-- Added for cross-platform temp directories
 
 # ── Optional registry modules (additive; rendering does NOT depend on them) ──
 try:
@@ -43,7 +44,7 @@ except ImportError:
 # ─────────────────────────────────────────────────────────────
 # Defaults — overridden at runtime by CLI options
 SAMPLE_RATE = 44100
-OUTPUT_DIR = "/mnt/user-data/outputs/buhoor"
+OUTPUT_DIR = "./outputs/buhoor"
 TARGET_DURATION_S = 10.0
 
 # ─────────────────────────────────────────────────────────────
@@ -430,7 +431,9 @@ def render_variant(
 
     ts = bahr["time_signature"]
     fname = f"{bahr_key}_{variant['name']}_{effective_bpm}bpm"
-    wav_p = f"/tmp/{fname}.wav"
+
+    # ROBUST FIX: Use the OS's native temporary directory
+    wav_p = os.path.join(tempfile.gettempdir(), fname + ".wav")
     mp3_p = os.path.join(output_dir, fname + ".mp3")
 
     wavfile.write(wav_p, SAMPLE_RATE, pcm)
