@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>الإيقاعات العربية — مولّد بروبتات Suno</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --font-sans: 'Cairo', system-ui, -apple-system, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, Menlo, monospace;
+
+  /* Palette */
+  --bg:          #faf8f4;
+  --bg-card:     #ffffff;
+  --bg-sub:      #f5f3ef;
+  --bg-info:     #eff6ff;
+  --bg-warn:     #fffbeb;
+  --bg-success:  #f0fdf4;
+  --bg-amber:    #fffbeb;
+
+  --border:      #e5e1da;
+  --border-sub:  #ede9e2;
+  --border-info: #bfdbfe;
+  --border-warn: #fde68a;
+  --border-ok:   #bbf7d0;
+
+  --txt:         #1c1917;
+  --txt-2:       #57534e;
+  --txt-3:       #a8a29e;
+  --txt-info:    #1d4ed8;
+  --txt-warn:    #b45309;
+  --txt-ok:      #15803d;
+
+  /* Star tier colors */
+  --star-3-bg:   #fffbeb;
+  --star-3-bd:   #fde68a;
+  --star-3-tx:   #92400e;
+  --star-2-bg:   #eff6ff;
+  --star-2-bd:   #bfdbfe;
+  --star-2-tx:   #1d4ed8;
+  --star-1-bg:   #f5f3ef;
+  --star-1-bd:   #e5e1da;
+  --star-1-tx:   #57534e;
+
+  --radius-sm:   5px;
+  --radius-md:   8px;
+  --radius-lg:   14px;
+  --radius-xl:   20px;
+  --shadow-card: 0 1px 3px rgba(0,0,0,0.06), 0 2px 8px rgba(0,0,0,0.04);
+  --shadow-hover: 0 6px 20px rgba(0,0,0,0.10);
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+
+body{
+  background:var(--bg);
+  font-family:var(--font-sans);
+  color:var(--txt);
+  min-height:100vh;
+  padding:24px 20px 48px;
+}
+
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
+
+/* ───── Page wrapper ───── */
+.wrap{
+  max-width:1180px;
+  margin:0 auto;
+  direction:rtl;
+}
+
+/* ───── Header ───── */
+.header{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:16px;
+  margin-bottom:20px;
+  flex-wrap:wrap;
+}
+.header-title{
+  font-size:22px;
+  font-weight:700;
+  color:var(--txt);
+  line-height:1.3;
+}
+.header-sub{
+  font-size:12px;
+  color:var(--txt-3);
+  margin-top:3px;
+  direction:ltr;
+  font-family:var(--font-mono);
+}
+.suno-badge{
+  background:var(--txt);
+  color:#fff;
+  font-size:11px;
+  font-weight:600;
+  padding:4px 12px;
+  border-radius:var(--radius-xl);
+  letter-spacing:0.5px;
+  white-space:nowrap;
+  align-self:center;
+  font-family:var(--font-mono);
+}
+
+/* ───── Notice ───── */
+.notice{
+  font-size:11px;
+  color:var(--txt-2);
+  background:var(--bg-card);
+  border:0.5px solid var(--border);
+  border-radius:var(--radius-md);
+  padding:9px 14px;
+  margin-bottom:20px;
+  line-height:1.65;
+  display:flex;
+  gap:8px;
+  align-items:flex-start;
+}
+.notice-icon{font-size:13px;flex-shrink:0;margin-top:1px}
+
+/* ───── Filter panels ───── */
+.filters-wrap{
+  background:var(--bg-card);
+  border:0.5px solid var(--border);
+  border-radius:var(--radius-lg);
+  padding:14px 16px;
+  margin-bottom:18px;
+  display:flex;
+  flex-direction:column;
+  gap:11px;
+}
+.filter-row{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  flex-wrap:nowrap;
+}
+.filter-label{
+  font-size:11px;
+  color:var(--txt-3);
+  font-weight:600;
+  white-space:nowrap;
+  flex-shrink:0;
+  min-width:62px;
+  text-align:right;
+}
+.filter-pills{
+  display:flex;
+  gap:5px;
+  flex-wrap:wrap;
+  direction:ltr;
+}
+.filter-pills.scrollable{
+  flex-wrap:nowrap;
+  overflow-x:auto;
+  scrollbar-width:none;
+  -ms-overflow-style:none;
+  padding-bottom:2px;
+}
+.filter-pills.scrollable::-webkit-scrollbar{display:none}
+.fb{
+  border:0.5px solid var(--border);
+  background:transparent;
+  color:var(--txt-2);
+  padding:4px 13px;
+  border-radius:var(--radius-xl);
+  font-size:12px;
+  font-weight:400;
+  cursor:pointer;
+  font-family:var(--font-sans);
+  transition:all 0.15s;
+  white-space:nowrap;
+  line-height:1.6;
+}
+.fb:hover:not(.on){background:var(--bg-sub);color:var(--txt)}
+.fb.on.ts-filter{background:var(--txt);color:#fff;border-color:var(--txt);font-weight:600}
+.fb.on.meter-filter{background:var(--star-3-bg);color:var(--star-3-tx);border-color:var(--star-3-bd);font-weight:600}
+
+/* ───── Result bar ───── */
+.result-bar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:14px;
+  gap:12px;
+  flex-wrap:wrap;
+}
+.result-count{
+  font-size:12px;
+  color:var(--txt-3);
+}
+.result-count strong{color:var(--txt-2)}
+.legend{
+  display:flex;
+  gap:10px;
+  font-size:11px;
+  color:var(--txt-3);
+  align-items:center;
+  flex-wrap:wrap;
+  direction:ltr;
+}
+.legend-item{display:flex;align-items:center;gap:4px}
+
+/* ───── Grid ───── */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
+  gap:14px;
+}
+
+/* ───── Card ───── */
+.card{
+  background:var(--bg-card);
+  border:0.5px solid var(--border);
+  border-radius:var(--radius-lg);
+  padding:17px 18px;
+  display:flex;
+  flex-direction:column;
+  gap:11px;
+  box-shadow:var(--shadow-card);
+  transition:box-shadow 0.2s, transform 0.2s, border-color 0.2s;
+}
+.card:hover{
+  box-shadow:var(--shadow-hover);
+  transform:translateY(-2px);
+  border-color:var(--border-sub);
+}
+.card.hidden{display:none}
+.card.meter-match{border-color:var(--star-3-bd)}
+
+/* Card header */
+.ch{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.ch-left{display:flex;flex-direction:column;gap:2px}
+.cn{font-size:20px;font-weight:600;color:var(--txt);line-height:1.2}
+.cen{font-size:12px;color:var(--txt-3);font-style:italic;direction:ltr;font-family:var(--font-mono)}
+.cregion{font-size:11px;color:var(--txt-3);margin-top:1px}
+.cbadges{display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex-shrink:0}
+.ts-badge{
+  background:var(--bg-info);
+  color:var(--txt-info);
+  font-size:11px;
+  padding:3px 10px;
+  border-radius:var(--radius-xl);
+  font-family:var(--font-mono);
+  direction:ltr;
+  white-space:nowrap;
+  border:0.5px solid var(--border-info);
+  font-weight:500;
+}
+.bpm-badge{
+  background:var(--bg-sub);
+  color:var(--txt-2);
+  font-size:11px;
+  padding:3px 10px;
+  border-radius:var(--radius-xl);
+  font-family:var(--font-mono);
+  direction:ltr;
+  white-space:nowrap;
+  border:0.5px solid var(--border);
+}
+.pattern{
+  font-size:10.5px;
+  color:var(--txt-3);
+  font-family:var(--font-mono);
+  direction:ltr;
+  letter-spacing:0.4px;
+  margin-top:2px;
+}
+
+/* Feel tags */
+.feel{display:flex;gap:4px;flex-wrap:wrap;align-items:center}
+.ftag{
+  font-size:11px;
+  padding:2px 9px;
+  border-radius:var(--radius-xl);
+  background:var(--bg-sub);
+  color:var(--txt-2);
+  border:0.5px solid var(--border);
+}
+
+/* Meters section */
+.meters-section{
+  background:var(--bg-sub);
+  border-radius:var(--radius-md);
+  padding:9px 11px;
+  display:flex;
+  flex-direction:column;
+  gap:7px;
+}
+.meters-title{
+  font-size:10px;
+  color:var(--txt-3);
+  font-weight:600;
+  text-transform:uppercase;
+  letter-spacing:0.5px;
+  direction:rtl;
+}
+.meters-list{
+  display:flex;
+  flex-wrap:wrap;
+  gap:5px;
+}
+.mbadge{
+  font-size:11px;
+  padding:3px 9px;
+  border-radius:var(--radius-xl);
+  border:0.5px solid;
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  transition:box-shadow 0.2s;
+  white-space:nowrap;
+}
+.mbadge[data-s="3"]{background:var(--star-3-bg);border-color:var(--star-3-bd);color:var(--star-3-tx)}
+.mbadge[data-s="2"]{background:var(--star-2-bg);border-color:var(--star-2-bd);color:var(--star-2-tx)}
+.mbadge[data-s="1"]{background:var(--star-1-bg);border-color:var(--star-1-bd);color:var(--star-1-tx)}
+.mbadge.active-meter{
+  box-shadow:0 0 0 2px var(--star-3-bd), 0 2px 6px rgba(180,83,9,0.15);
+  font-weight:600;
+}
+.mstars{font-size:9.5px;direction:ltr;letter-spacing:-0.5px;opacity:0.85}
+.ceremonial-note{
+  font-size:11px;
+  color:var(--txt-3);
+  font-style:italic;
+  direction:rtl;
+}
+
+/* Divider */
+.divider{border:none;border-top:0.5px solid var(--border);margin:0}
+
+/* Field blocks */
+.fblock{
+  background:var(--bg-sub);
+  border-radius:var(--radius-md);
+  padding:10px 12px;
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+  border:0.5px solid var(--border-sub);
+}
+.flabel{
+  font-size:11px;
+  color:var(--txt-2);
+  font-weight:600;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  direction:rtl;
+}
+.ftext{
+  font-size:10.5px;
+  color:var(--txt);
+  line-height:1.7;
+  direction:ltr;
+  text-align:left;
+  font-family:var(--font-mono);
+  white-space:pre-wrap;
+  word-break:break-word;
+}
+
+/* Copy button */
+.cbtn{
+  border:0.5px solid var(--border);
+  background:var(--bg-card);
+  color:var(--txt-2);
+  font-size:11px;
+  padding:3px 11px;
+  border-radius:var(--radius-sm);
+  cursor:pointer;
+  font-family:var(--font-sans);
+  direction:ltr;
+  transition:all 0.15s;
+  flex-shrink:0;
+}
+.cbtn:hover{background:var(--bg-sub);color:var(--txt)}
+.cbtn.ok{background:var(--bg-success);color:var(--txt-ok);border-color:var(--border-ok)}
+
+/* Tip */
+.tip{
+  background:var(--bg-warn);
+  border:0.5px solid var(--border-warn);
+  border-radius:var(--radius-md);
+  padding:9px 12px;
+  font-size:11px;
+  color:var(--txt-warn);
+  direction:rtl;
+  line-height:1.65;
+  display:flex;
+  gap:7px;
+  align-items:flex-start;
+}
+.tip-icon{flex-shrink:0;font-size:12px;margin-top:1px}
+.tip-body{}
+.tip-lbl{font-weight:600;margin-bottom:2px}
+
+/* ───── Empty state ───── */
+.empty{
+  grid-column:1/-1;
+  text-align:center;
+  padding:48px 20px;
+  color:var(--txt-3);
+  font-size:14px;
+  display:none;
+}
+.empty.show{display:block}
+
+/* ───── Animations ───── */
+@keyframes fadeSlideIn{
+  from{opacity:0;transform:translateY(8px)}
+  to{opacity:1;transform:translateY(0)}
+}
+.card{animation:fadeSlideIn 0.25s ease-out both}
+
+</style>
+</head>
+<body>
+
+<h1 class="sr-only">الإيقاعات العربية — مولّد بروبتات الإيقاع لـ Suno.com</h1>
+
+<div class="wrap">
+
+  <!-- Header -->
+  <div class="header">
+    <div>
+      <div class="header-title">الإيقاعات العربية · مولّد بروبتات Suno</div>
+      <div class="header-sub">Arabic iqa'at · Suno.com percussion prompt generator</div>
+    </div>
+    <div class="suno-badge">suno.com</div>
+  </div>
+
+  <!-- Notice -->
+  <div class="notice">
+    <span class="notice-icon">📚</span>
+    <span>من معرفة التدريب — تحقق دائماً من سونو أو r/SunoAI قبل الاعتماد على هذه البروبتات في إصدارات جديدة. جميع المسارات صوتية خالصة بدون صوت بشري. لكل إيقاع، تجد البحور الشعرية المتوافقة معه.</span>
+  </div>
+
+  <!-- Filters -->
+  <div class="filters-wrap">
+    <div class="filter-row">
+      <span class="filter-label">الإيقاع</span>
+      <div class="filter-pills" id="ts-filters"></div>
+    </div>
+    <div class="filter-row">
+      <span class="filter-label">البحر</span>
+      <div class="filter-pills scrollable" id="meter-filters"></div>
+    </div>
+  </div>
+
+  <!-- Result bar -->
+  <div class="result-bar">
+    <div class="result-count" id="result-count"></div>
+    <div class="legend">
+      <span class="legend-item"><span style="color:var(--star-3-tx);font-size:12px">★★★</span> توافق عالٍ</span>
+      <span class="legend-item"><span style="color:var(--txt-info);font-size:12px">★★</span> توافق جيد</span>
+      <span class="legend-item"><span style="color:var(--txt-3);font-size:12px">★</span> مشروط</span>
+    </div>
+  </div>
+
+  <!-- Grid -->
+  <div class="grid" id="grid">
+    <div class="empty" id="empty">لا توجد إيقاعات مطابقة للفلتر المحدد.</div>
+  </div>
+
+</div>
+
+<script>
+/* ─── Data ─── */
+const D=[
+  {
+    ar:'مقسوم', en:'Maqsum', ts:'4/4', bpm:'90–115', pat:'DUM TAK-ta TAK',
+    region:'مصر · الشام · الخليج',
+    feel:['راقص','شعبي','حيوي'],
+    cat:['common','4-4'],
+    meters:[
+      {k:'basit',ar:'البسيط',s:3},
+      {k:'rajaz',ar:'الرجز',s:3},
+      {k:'mutadarak',ar:'المتدارك',s:3},
+      {k:'ramal',ar:'الرمل',s:2},
+      {k:'mutaqarib',ar:'المتقارب',s:2},
+    ],
+    style:'arabic percussion, darbuka, riq, maqsum groove, middle eastern drums, 100bpm, instrumental, no vocals, no singing, percussion only',
+    lyrics:'[Instrumental]\n[Percussion intro - darbuka]\n[Maqsum groove]\n[Riq accent layer]\n[Percussion build]\n[Break]\n[Outro - fade]',
+    tip:null,
+  },
+  {
+    ar:'وحدة', en:'Wahda', ts:'4/4', bpm:'60–80', pat:'DUM — — TAK — —',
+    region:'مصر · المغرب',
+    feel:['فخم','رصين','هادئ'],
+    cat:['common','4-4'],
+    meters:[
+      {k:'basit',ar:'البسيط',s:3},
+      {k:'rajaz',ar:'الرجز',s:3},
+      {k:'ramal',ar:'الرمل',s:3},
+      {k:'mutadarak',ar:'المتدارك',s:2},
+    ],
+    style:'arabic percussion, darbuka, bass darbuka, wahda rhythm, slow and majestic, 70bpm, middle eastern, instrumental, no vocals, no singing, percussion only',
+    lyrics:'[Instrumental]\n[Heavy percussion intro]\n[Wahda slow pulse]\n[Bass darbuka dominant]\n[Sustained groove]\n[Outro - fade]',
+    tip:'أضف "slow, 70bpm" — بدونهما سونو يتسارع تلقائياً نحو مقسوم',
+  },
+  {
+    ar:'ملفوف', en:'Malfuf', ts:'2/4', bpm:'130–165', pat:'DUM — TAK —',
+    region:'مصر · الخليج · المغرب',
+    feel:['سريع','احتفالي','منطلق'],
+    cat:['common','2-4'],
+    meters:[
+      {k:'hazaj',ar:'الهزج',s:3},
+      {k:'sari',ar:'السريع',s:3},
+      {k:'mutadarak',ar:'المتدارك',s:3},
+    ],
+    style:'arabic percussion, darbuka, riq, malfuf rhythm, fast and festive, 145bpm, middle eastern, instrumental, no vocals, no singing, percussion only',
+    lyrics:'[Instrumental]\n[Fast percussion intro]\n[Malfuf drive]\n[Riq shimmer layer]\n[Percussion break]\n[Outro - fast fade]',
+    tip:null,
+  },
+  {
+    ar:'أيوب', en:'Ayyub', ts:'2/4', bpm:'100–130', pat:'DUM — DUM TAK',
+    region:'مصر · السودان · الخليج',
+    feel:['متدفق','فولكلوري','روحاني'],
+    cat:['common','2-4'],
+    meters:[
+      {k:'hazaj',ar:'الهزج',s:3},
+      {k:'sari',ar:'السريع',s:2},
+    ],
+    style:'arabic folk percussion, frame drum, darbuka, ayyub rhythm, flowing folk, 115bpm, north african, instrumental, no vocals, no singing, percussion only',
+    lyrics:'[Instrumental]\n[Frame drum opening]\n[Ayyub groove]\n[Counterrhythm fill]\n[Build]\n[Outro]',
+    tip:null,
+  },
+  {
+    ar:'بلدي', en:'Baladi', ts:'4/4', bpm:'80–100', pat:'DUM DUM - TAK DUM - TAK -',
+    region:'مصر',
+    feel:['دافئ','شعبي مصري','أصيل'],
+    cat:['common','4-4'],
+    meters:[
+      {k:'rajaz',ar:'الرجز',s:2},
+    ],
+    style:'egyptian percussion, tabla baladi, darbuka, baladi rhythm, warm earthy, 90bpm, cairo folk drums, instrumental, no vocals, no singing, percussion only',
+    lyrics:'[Instrumental]\n[Tabla baladi intro]\n[Baladi groove]\n[Darbuka fill]\n[Egyptian folk break]\n[Outro]',
+    tip:'"tabla baladi" تحديداً — لا "darbuka" وحدها. سونو يغيّر الطابع الكامل بالاختيار',
+  },
+  {
+    ar:'صعيدي', en:"Sa'idi", ts:'4/4', bpm:'100–130', pat:'DUM - TAK - DUM TAK - -',
+    region:'صعيد مصر',
+    feel:['حماسي','قوي','ريفي'],
+    cat:['4-4'],
+    meters:[
+      {k:'basit',ar:'البسيط',s:2},
+    ],
+    style:'upper egyptian percussion, saidi rhythm, tabl, stick drums, energetic rural, 115bpm, instrumental, no vocals, no singing, percussion only',
+    lyrics:'[Instrumental]\n[Stick drum intro - saidi]\n[Tabl groove]\n[Saidi percussion build]\n[Strong break]\n[Outro - strong ending]',
+    tip:'"tabl, stick drums" تعطي نتائج أفضل بكثير من "darbuka" للصعيدي في سونو',
+  },
+  {
+    ar:'فلاحي', en:'Fallahi', ts:'2/4', bpm:'110–140', pat:'DUM TAK DUM —',
+    region:'ريف مصر · الشام',
+    feel:['شعبي','ريفي','خفيف'],
+    cat:['2-4'],
+    meters:[
+      {k:'sari',ar:'السريع',s:3},
+      {k:'mutadarak',ar:'المتدارك',s:2},
+    ],
+    style:'egyptian folk percussion, fallahi rhythm, frame drum, riq, 125bpm, rural festive, instrumental, no vocals, no singing, percussion only',
+    lyrics:'[Instrumental]\n[Folk drum intro]\n[Fallahi groove]\n[Riq shimmer]\n[Build]\n[Fade out]',
+    tip:null,
+  },
+  {
+    ar:'مصمودي كبير', en:'Masmudi Kabir', ts:'8/4', bpm:'65–85', pat:'DUM DUM - TAK - - TAK -',
+    region:'شمال أفريقيا · الأندلس',
+    feel:['كلاسيكي','رصين','احتفالي'],
+    cat:['complex'],
+    meters:[
+      {k:'mutaqarib',ar:'المتقارب',s:3},
+      {k:'tawil',ar:'الطويل',s:2},
+      {k:'khafif',ar:'الخفيف',s:1},
+    ],
+    style:'arabic classical percussion, darbuka, masmudi kabir, 8/4 slow, ceremonial, 8 beat cycle, 75bpm, north african classical, instrumental, no vocals, no singing, percussion only',
+    lyrics:'[Instrumental]\n[Ceremonial drum intro]\n[Masmudi Kabir 8-beat cycle]\n[Darbuka melodic fill]\n[Classical groove]\n[Ceremonial outro]',
+    tip:'سونو قد يعالج 8/4 كـ4/4 مضاعف — أضف "slow ceremonial, 8 beat cycle" للتمييز',
+  },
+  {
+    ar:'مدور مصري', en:'Mudawwar Masri', ts:'12/4', bpm:'60–75', pat:'DUM - - TAK - - DUM - TAK - - -',
+    region:'مصر الكلاسيكية',
+    feel:['فخم','طربي','واسع'],
+    cat:['complex'],
+    meters:[
+      {k:'tawil',ar:'الطويل',s:3},
+      {k:'rajaz',ar:'الرجز',s:2},
+    ],
+    style:'arabic classical percussion, darbuka, mudawwar masri, 12/4 compound meter, slow tarab, 68bpm, egyptian classical, instrumental, no vocals, no singing, percussion only',
+    lyrics:'[Instrumental]\n[Classical percussion opening]\n[Mudawwar 12-beat phrase]\n[Tarab percussion groove]\n[Darbuka solo section]\n[Outro - resolving]',
+    tip:'إيقاع نادر جداً في سونو — توقع نتائج متباينة. أعد التوليد بحرية وقارن',
+  },
+  {
+    ar:'سماعي دارج', en:"Sama'i Darij", ts:'3/4', bpm:'90–120', pat:'DUM — TAK',
+    region:'تركيا · الشام · مصر الكلاسيكية',
+    feel:['والتز','كلاسيكي','ناعم'],
+    cat:['common','3-4'],
+    meters:[
+      {k:'kamil',ar:'الكامل',s:3},
+      {k:'wafir',ar:'الوافر',s:3},
+      {k:'ramal',ar:'الرمل',s:2},
+      {k:'madid',ar:'المديد',s:1},
+    ],
+    style:'arabic turkish percussion, darbuka, riq, samai darij, 3/4 waltz groove, ottoman classical, 105bpm, instrumental, no vocals, no singing, percussion only',
+    lyrics:'[Instrumental]\n[3/4 waltz percussion intro]\n[Samai Darij groove]\n[Riq accent layer]\n[Ottoman break]\n[Soft outro]',
+    tip:null,
+  },
+  {
+    ar:'سماعي ثقيل', en:"Sama'i Thaqil", ts:'10/8', bpm:'70–90', pat:'DUM - TAK - - DUM - TAK - -',
+    region:'تركيا · الشام · عربي عثماني',
+    feel:['موشحات','عثماني','ثقيل'],
+    cat:['complex'],
+    meters:[
+      {k:'khafif',ar:'الخفيف',s:3},
+      {k:'ramal',ar:'الرمل',s:2},
+    ],
+    style:'arabic turkish classical percussion, darbuka, riq, samai thaqil, 10/8 compound, heavy classical, 80bpm, ottoman maqam, instrumental, no vocals, no singing, percussion only',
+    lyrics:'[Instrumental]\n[10/8 percussion intro]\n[Samai Thaqil groove]\n[Darbuka ornament fill]\n[Classical break]\n[Resolving outro]',
+    tip:'سونو يجاهد مع 10/8 — جرّب "5 beat phrase, 3+2+2+3 grouping" إذا انزلق لـ4/4',
+  },
+  {
+    ar:'يورك سماعي', en:'Yuruk Semai', ts:'6/8', bpm:'100–130', pat:'DUM - TAK DUM TAK -',
+    region:'تركيا · الشام',
+    feel:['خفيف','متوثب','عثماني'],
+    cat:['3-4','complex'],
+    meters:[
+      {k:'kamil',ar:'الكامل',s:3},
+      {k:'wafir',ar:'الوافر',s:2},
+    ],
+    style:'turkish arabic percussion, darbuka, riq, yuruk semai, 6/8 compound lively, ottoman, 115bpm, instrumental, no vocals, no singing, percussion only',
+    lyrics:'[Instrumental]\n[6/8 percussion intro]\n[Yuruk Semai groove]\n[Riq shimmer]\n[Lively break]\n[Outro]',
+    tip:null,
+  },
+  {
+    ar:'نواخت', en:'Nawakht', ts:'7/4', bpm:'85–105', pat:'DUM - TAK - DUM DUM TAK',
+    region:'الشام · تركيا · المغرب',
+    feel:['معقد','متمايل','متوسطي'],
+    cat:['complex'],
+    meters:[
+      {k:'madid',ar:'المديد',s:3},
+      {k:'basit',ar:'البسيط',s:2},
+    ],
+    style:'arabic percussion, darbuka, riq, nawakht rhythm, 7/4 odd meter, asymmetric groove, 4+3 beat grouping, 95bpm, instrumental, no vocals, no singing, percussion only',
+    lyrics:'[Instrumental]\n[7-beat percussion intro]\n[Nawakht 4+3 groove]\n[Darbuka accent fill]\n[Odd meter break]\n[Resolving outro]',
+    tip:'سونو يهرب من 7/4 كثيراً — أضف "limping rhythm, 4+3 beat grouping" لتثبيت الإيقاع',
+  },
+  {
+    ar:'زفة', en:'Zaffa', ts:'4/4', bpm:'85–100', pat:'DUM DUM TAK DUM TAK',
+    region:'مصر · الشام — احتفالي',
+    feel:['احتفالي','زفاف','مهيب'],
+    cat:['4-4'],
+    meters:[], ceremonial:true,
+    style:'arabic wedding percussion, tabla, darbuka, mizmar drums, zaffa rhythm, ceremonial festive, 92bpm, egyptian wedding drums, instrumental, no vocals, no singing, percussion only',
+    lyrics:'[Instrumental]\n[Ceremonial drum fanfare]\n[Zaffa wedding groove]\n[Tabla accent layer]\n[Festive build]\n[Grand finale outro]',
+    tip:'"mizmar drums" حتى دون مزمار في نيتك — يضع سونو في السياق الاحتفالي الصحيح تلقائياً',
+  },
+];
+
+/* ─── Filter meta ─── */
+const TS_FILTERS=[
+  {k:'all', l:'الكل'},
+  {k:'common', l:'الشائعة'},
+  {k:'2-4', l:'2/4'},
+  {k:'3-4', l:'3/4 · 6/8'},
+  {k:'4-4', l:'4/4'},
+  {k:'complex', l:'مركّب'},
+];
+
+const METER_FILTERS=[
+  {k:'all',ar:'الكل'},
+  {k:'tawil',ar:'الطويل'},
+  {k:'basit',ar:'البسيط'},
+  {k:'kamil',ar:'الكامل'},
+  {k:'wafir',ar:'الوافر'},
+  {k:'hazaj',ar:'الهزج'},
+  {k:'rajaz',ar:'الرجز'},
+  {k:'ramal',ar:'الرمل'},
+  {k:'sari',ar:'السريع'},
+  {k:'khafif',ar:'الخفيف'},
+  {k:'mutaqarib',ar:'المتقارب'},
+  {k:'mutadarak',ar:'المتدارك'},
+  {k:'madid',ar:'المديد'},
+];
+
+let activeTs='all', activeMeter='all';
+
+/* ─── Helpers ─── */
+function stars(s){
+  const ON=['★★★','★★','★'][s-1]||'';
+  return ON;
+}
+
+function doCopy(text,btn){
+  const done=()=>{btn.textContent='تم ✓';btn.classList.add('ok');setTimeout(()=>{btn.textContent='نسخ';btn.classList.remove('ok')},1600)};
+  if(navigator.clipboard){
+    navigator.clipboard.writeText(text).then(done).catch(()=>{fbCopy(text);done()});
+  }else{fbCopy(text);done()}
+}
+function fbCopy(t){
+  const ta=document.createElement('textarea');ta.value=t;ta.style.cssText='position:fixed;opacity:0';
+  document.body.appendChild(ta);ta.select();
+  try{document.execCommand('copy')}catch(e){}
+  document.body.removeChild(ta);
+}
+
+/* ─── Filter logic ─── */
+function cardVisible(d){
+  const tsOk = activeTs==='all' || d.cat.includes(activeTs);
+  const meterOk = activeMeter==='all' ||
+    (d.meters && d.meters.some(m=>m.k===activeMeter));
+  return tsOk && meterOk;
+}
+
+function applyFilters(){
+  let visible=0;
+  document.querySelectorAll('.card[data-idx]').forEach(el=>{
+    const d=D[+el.dataset.idx];
+    const show=cardVisible(d);
+    el.classList.toggle('hidden',!show);
+    if(show){
+      visible++;
+      // Highlight matching meter badge
+      el.querySelectorAll('.mbadge').forEach(mb=>{
+        mb.classList.toggle('active-meter', activeMeter!=='all' && mb.dataset.mk===activeMeter);
+      });
+      el.classList.toggle('meter-match', activeMeter!=='all');
+    }
+  });
+  document.getElementById('empty').classList.toggle('show', visible===0);
+  const total=D.length;
+  const cnt=document.getElementById('result-count');
+  if(visible===total){
+    cnt.innerHTML=`يُعرض <strong>${total}</strong> إيقاعاً`;
+  }else{
+    cnt.innerHTML=`يُعرض <strong>${visible}</strong> من <strong>${total}</strong> إيقاعاً`;
+  }
+}
+
+function setTs(k){
+  activeTs=k;
+  document.querySelectorAll('.fb.ts-filter').forEach(b=>b.classList.toggle('on',b.dataset.k===k));
+  applyFilters();
+}
+
+function setMeter(k){
+  activeMeter=k;
+  document.querySelectorAll('.fb.meter-filter').forEach(b=>b.classList.toggle('on',b.dataset.k===k));
+  applyFilters();
+}
+
+/* ─── Render filters ─── */
+function renderFilters(){
+  document.getElementById('ts-filters').innerHTML=
+    TS_FILTERS.map(f=>`<button class="fb ts-filter${f.k===activeTs?' on':''}" data-k="${f.k}" onclick="setTs('${f.k}')">${f.l}</button>`).join('');
+  document.getElementById('meter-filters').innerHTML=
+    METER_FILTERS.map(f=>`<button class="fb meter-filter${f.k===activeMeter?' on':''}" data-k="${f.k}" onclick="setMeter('${f.k}')">${f.ar}</button>`).join('');
+}
+
+/* ─── Render cards ─── */
+function renderGrid(){
+  const grid=document.getElementById('grid');
+  const cards=D.map((d,i)=>{
+    // Meters section
+    let metersHTML='';
+    if(d.ceremonial){
+      metersHTML=`<div class="meters-section">
+        <div class="meters-title">البحر الشعري</div>
+        <div class="ceremonial-note">إيقاع احتفالي — لا يرتبط ببحر محدد</div>
+      </div>`;
+    }else if(d.meters&&d.meters.length){
+      const badges=d.meters.map(m=>`
+        <span class="mbadge" data-s="${m.s}" data-mk="${m.k}">
+          <span>${m.ar}</span>
+          <span class="mstars">${stars(m.s)}</span>
+        </span>`).join('');
+      metersHTML=`<div class="meters-section">
+        <div class="meters-title">البحور الشعرية المتوافقة</div>
+        <div class="meters-list">${badges}</div>
+      </div>`;
+    }
+
+    return `<div class="card" data-idx="${i}" data-cats="${d.cat.join(',')}">
+      <div class="ch">
+        <div class="ch-left">
+          <div class="cn">${d.ar}</div>
+          <div class="cen">${d.en}</div>
+          <div class="pattern">${d.pat}</div>
+        </div>
+        <div class="cbadges">
+          <span class="ts-badge">${d.ts}</span>
+          <span class="bpm-badge">${d.bpm} bpm</span>
+        </div>
+      </div>
+      <div class="feel">
+        ${d.feel.map(f=>`<span class="ftag">${f}</span>`).join('')}
+        <span style="font-size:11px;color:var(--txt-3);margin-right:auto">${d.region}</span>
+      </div>
+      ${metersHTML}
+      <hr class="divider">
+      <div class="fblock">
+        <div class="flabel">
+          <span>نمط موسيقي — Style field</span>
+          <button class="cbtn" onclick="doCopy(D[${i}].style,this)">نسخ</button>
+        </div>
+        <div class="ftext">${d.style}</div>
+      </div>
+      <div class="fblock">
+        <div class="flabel">
+          <span>كلمات — Lyrics field</span>
+          <button class="cbtn" onclick="doCopy(D[${i}].lyrics,this)">نسخ</button>
+        </div>
+        <div class="ftext">${d.lyrics}</div>
+      </div>
+      ${d.tip?`<div class="tip"><span class="tip-icon">⚠️</span><div class="tip-body"><div class="tip-lbl">تنبيه سونو</div>${d.tip}</div></div>`:''}
+    </div>`;
+  });
+  // Prepend empty state div, then cards
+  grid.innerHTML=`<div class="empty" id="empty">لا توجد إيقاعات مطابقة للفلتر المحدد.</div>`+cards.join('');
+}
+
+/* ─── Init ─── */
+renderFilters();
+renderGrid();
+applyFilters();
+</script>
+</body>
+</html>
