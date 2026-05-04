@@ -181,6 +181,14 @@ const D=[
     {n:"Sama'i Darij",t:'3/4',s:1,r:'ممكن في قوالب القدود الأندلسية'},
   ]},
 ];
+const AR={
+  'Maqsum':'مقسوم','Wahda':'وحدة','Wahda Kabira':'وحدة كبيرة','Wahda Saghira':'وحدة صغيرة',
+  'Masmudi Kabir':'مصمودي كبير','Malfuf':'ملفوف','Ayyub':'أيوب','Baladi':'بلدي',
+  "Sa'idi":'صعيدي','Fallahi':'فلاحي',"Sama'i Darij":'سماعي دارج',"Sama'i Thaqil":'سماعي ثقيل',
+  "Sama'i Saraband":'سماعي سربند','Yuruk Semai':'يورك سماعي','Nawakht':'نواخت',
+  'Jurjina':'جورجينا','Ciftetelli':'شفتتلي','Dawr Hindi':'دور هندي',
+  'Mudawwar Masri':'مدور مصري','Mudawwar Shami':'مدور شامي',"Warshan 'Arabi":'ورشان عربي','Sudasi':'سداسي'
+};
 const sc=['','var(--color-text-secondary)','var(--color-text-info)','var(--color-text-warning)'];
 const bc=['','var(--color-background-secondary)','var(--color-background-info)','var(--color-background-warning)'];
 const bdc=['','var(--color-border-secondary)','var(--color-border-info)','var(--color-border-warning)'];
@@ -204,7 +212,8 @@ document.getElementById('mg').innerHTML=D.map(m=>`
           <div style="display:flex;align-items:center;gap:7px;direction:ltr;margin-bottom:3px">
             ${st(q.s)}
             <span style="font-size:13px;font-weight:500;color:${sc[q.s]};font-style:italic">${q.n}</span>
-            <span style="font-size:11px;color:${sc[q.s]};font-family:var(--font-mono);margin-left:auto">${q.t}</span>
+            <span style="font-size:13px;font-weight:500;color:${sc[q.s]};margin-left:auto;margin-right:8px">${AR[q.n]||''}</span>
+            <span style="font-size:11px;color:${sc[q.s]};font-family:var(--font-mono)">${q.t}</span>
           </div>
           <div style="font-size:11px;color:var(--color-text-secondary);line-height:1.5;direction:rtl">${q.r}</div>
         </div>
@@ -221,7 +230,10 @@ D.forEach(m=>m.iq.forEach(q=>{
 const srt=Object.values(map).sort((a,b)=>b.ms.length-a.ms.length);
 document.getElementById('ig').innerHTML=srt.map(q=>`
   <div class="mc">
-    <div style="font-size:14px;font-weight:500;color:var(--color-text-primary);margin-bottom:2px;direction:ltr">${q.n}</div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:2px">
+      <span style="font-size:14px;font-weight:500;color:var(--color-text-primary);direction:ltr">${q.n}</span>
+      <span style="font-size:14px;font-weight:500;color:var(--color-text-primary)">${AR[q.n]||''}</span>
+    </div>
     <div style="font-size:11px;font-family:var(--font-mono);color:var(--color-text-tertiary);margin-bottom:10px;padding-bottom:10px;border-bottom:0.5px solid var(--color-border-tertiary);direction:ltr">${q.t}</div>
     <div style="display:flex;flex-direction:column;gap:5px">
       ${q.ms.sort((a,b)=>b.s-a.s).map(m=>`
