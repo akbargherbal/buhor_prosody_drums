@@ -6,7 +6,6 @@ dist/
 wheels/
 *.egg-info
 buhoor_drums_mp3/
-DEV/
 
 
 # Virtual environments
