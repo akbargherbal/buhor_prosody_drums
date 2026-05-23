@@ -381,11 +381,45 @@ rm DATA/arabic_rhythm_data.json    # Unix
 
 ---
 
+### Task 2.4 — Rename `audit_phase2.py` → `smoke_test_renders.py`
+**Files:** `buhor_prosody_drums/audit_phase2.py` · `Phased_Plan_Audit_Remediation.md` (gate command)  
+**Rationale:** The name `audit_phase2.py` is misleading on two counts: (1) it implies a `audit_phase1.py` sibling; (2) "phase 2" collides with this plan's own Phase 2 terminology. The script's actual role is an end-to-end audio render smoke test — it calls `render_variant()` and produces MP3 files. The new name reflects that accurately.
+
+**Step 1 — Rename the file:**
+```bash
+# From buhor_prosody_drums/ root:
+git mv audit_phase2.py smoke_test_renders.py
+# If not using git:
+mv audit_phase2.py smoke_test_renders.py
+```
+
+**Step 2 — Update the internal label string inside `smoke_test_renders.py`:**
+```python
+# FIND:
+            "why": "Phase 2 Auditory Test",
+
+# REPLACE WITH:
+            "why": "Render smoke test",
+```
+
+**Minimum change rule:** File rename + one string inside it. Do not touch any test cases, imports, or logic.
+
+**Success criteria:**
+```bash
+python smoke_test_renders.py
+# Expected: runs to completion, prints ✅ Audit files generated in ...
+ls audit_phase2.py 2>/dev/null && echo "OLD FILE STILL EXISTS — FAIL" || echo "Rename OK ✅"
+```
+
+**Stop condition:** If `smoke_test_renders.py` produces a traceback, STOP and restore from `.bak`.
+
+---
+
 **Phase 2 Gate:**
 ```bash
 python -c "from iqaa_patterns import validate_patterns; errs = validate_patterns(); assert errs == [], errs; print('OK')"
 python buhoor_drums.py --validate
-python audit_phase2.py
+python smoke_test_renders.py
 ```
 All three must complete without errors or exceptions. **Do not proceed to Phase 3 if any fail.**
 
@@ -858,7 +892,7 @@ Create `DEV/session_summaries/Session_Remediation_1_Handover.md` in the Python p
 | buhor_prosody_drums/iqaa_patterns.py | Slug renames (fallahy→fallahi, samaai_darij→legacy) |
 | buhor_prosody_drums/meter_registry.py | IqaaRecord.beats_per_bar field added |
 | buhor_prosody_drums/arabic_rhythm_data.json | beats_per_bar field added to all records; 2 Hazaj records added |
-| buhor_prosody_drums/audit_phase2.py | Phantom wafir/sama3i_saraband test commented out |
+| buhor_prosody_drums/smoke_test_renders.py | Renamed from audit_phase2.py; phantom test commented out (Task 2.3); internal label updated (Task 2.4) |
 | buhor_prosody_drums/DATA/ | arabic_rhythm_data.json deleted |
 | arabic-poetry-drum-machine/src/index.html | BAHUR restructured, defaultBpm added, ziHaf notice, design philosophy note |
 
