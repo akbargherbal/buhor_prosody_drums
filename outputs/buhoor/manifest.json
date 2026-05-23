@@ -1,0 +1,21 @@
+{
+  "generated_at": "2026-05-04T13:17:22.520882+00:00",
+  "seed": 42,
+  "files": [
+    {
+      "filename": "khafeef_masmudi_kabir_105bpm.mp3",
+      "meter_ar": "الخفيف",
+      "iqaa": "Masmudi Kabir",
+      "is_traditional": false,
+      "bpm": 105,
+      "bpm_range": [
+        52,
+        96
+      ],
+      "steps_per_bar": 8,
+      "geographic_tradition": "Masri",
+      "instrument_context": "firqa",
+      "performance_notes": "DUM on beats 1 and 5; tek on 3 and 7. The 8-beat Masmudi Kabir requires textual adaptation to fit Al-Khafīf's 10-unit mixed foot; suitable for popular folk-style vocal settings."
+    }
+  ]
+}
