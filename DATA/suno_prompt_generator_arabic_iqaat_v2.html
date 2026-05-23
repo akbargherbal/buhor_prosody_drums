@@ -479,8 +479,10 @@ const D=[
       {k:'basit',ar:'البسيط',s:3},
       {k:'rajaz',ar:'الرجز',s:3},
       {k:'mutadarak',ar:'المتدارك',s:3},
+      {k:'munsarih',ar:'المنسرح',s:3},
       {k:'ramal',ar:'الرمل',s:2},
       {k:'mutaqarib',ar:'المتقارب',s:2},
+      {k:'hazaj',ar:'الهزج',s:2},
     ],
     style:'arabic percussion, darbuka, riq, maqsum groove, middle eastern drums, 100bpm, instrumental, no vocals, no singing, percussion only',
     lyrics:'[Instrumental]\n[Percussion intro - darbuka]\n[Maqsum groove]\n[Riq accent layer]\n[Percussion build]\n[Break]\n[Outro - fade]',
@@ -495,6 +497,7 @@ const D=[
       {k:'basit',ar:'البسيط',s:3},
       {k:'rajaz',ar:'الرجز',s:3},
       {k:'ramal',ar:'الرمل',s:3},
+      {k:'munsarih',ar:'المنسرح',s:3},
       {k:'mutadarak',ar:'المتدارك',s:2},
     ],
     style:'arabic percussion, darbuka, bass darbuka, wahda rhythm, slow and majestic, 70bpm, middle eastern, instrumental, no vocals, no singing, percussion only',
@@ -580,6 +583,19 @@ const D=[
     tip:'سونو قد يعالج 8/4 كـ4/4 مضاعف — أضف "slow ceremonial, 8 beat cycle" للتمييز',
   },
   {
+    ar:'وحدة صغيرة', en:'Wahda Saghira', ts:'2/4', bpm:'95–130', pat:'DUM — TAK KA',
+    region:'مصر · الخليج',
+    feel:['خفيف','انسيابي','معتدل'],
+    cat:['2-4'],
+    meters:[
+      {k:'hazaj',ar:'الهزج',s:2},
+      {k:'sari',ar:'السريع',s:2},
+    ],
+    style:'arabic percussion, darbuka, riq, wahda saghira rhythm, light 2/4, flowing, 110bpm, middle eastern, instrumental, no vocals, no singing, percussion only',
+    lyrics:'[Instrumental]\n[Light percussion intro]\n[Wahda Saghira groove]\n[Riq ornament layer]\n[Soft build]\n[Gentle outro]',
+    tip:null,
+  },
+  {
     ar:'مدور مصري', en:'Mudawwar Masri', ts:'12/4', bpm:'60–75', pat:'DUM - - TAK - - DUM - TAK - - -',
     region:'مصر الكلاسيكية',
     feel:['فخم','طربي','واسع'],
@@ -587,6 +603,7 @@ const D=[
     meters:[
       {k:'tawil',ar:'الطويل',s:3},
       {k:'rajaz',ar:'الرجز',s:2},
+      {k:'hazaj',ar:'الهزج',s:2},
     ],
     style:'arabic classical percussion, darbuka, mudawwar masri, 12/4 compound meter, slow tarab, 68bpm, egyptian classical, instrumental, no vocals, no singing, percussion only',
     lyrics:'[Instrumental]\n[Classical percussion opening]\n[Mudawwar 12-beat phrase]\n[Tarab percussion groove]\n[Darbuka solo section]\n[Outro - resolving]',
@@ -682,6 +699,7 @@ const METER_FILTERS=[
   {k:'mutaqarib',ar:'المتقارب'},
   {k:'mutadarak',ar:'المتدارك'},
   {k:'madid',ar:'المديد'},
+  {k:'munsarih',ar:'المنسرح'},
 ];
 
 let activeTs='all', activeMeter='all';

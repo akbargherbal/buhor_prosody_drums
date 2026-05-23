@@ -51,6 +51,7 @@ METER_AR_TO_SLUG: dict[str, str] = {
     "السريع": "sari",
     "المتدارك": "mutadarak",
     "المديد": "madeed",
+    "المنسرح": "munsarih",
 }
 
 # Inverse mapping (slug → Arabic) — built once at import time
@@ -76,6 +77,7 @@ class IqaaRecord:
     default_bpm: int  # Canonical tempo for this pairing
     bpm_range: tuple[int, int]  # (min_bpm, max_bpm) valid range
     steps_per_bar: int  # Step grid length
+    beats_per_bar: int  # Beats per bar (time signature numerator context) — Task 3.1
     instrument_context: str  # "doumbek solo", "firqa", "tabl + riq", etc.
     performance_notes: str  # DUM/TEK/KA placement description
     syllable_pattern: str  # Mora-notation string (∪ / —)
@@ -138,6 +140,7 @@ def load_registry(json_path: Path) -> dict[str, list[IqaaRecord]]:
             default_bpm=int(row.get("default_bpm", 90)),
             bpm_range=(int(bpm_range_raw[0]), int(bpm_range_raw[1])),
             steps_per_bar=int(row.get("steps_per_bar", 16)),
+            beats_per_bar=int(row.get("beats_per_bar", 4)),  # Task 3.1
             instrument_context=row.get("instrument_context", ""),
             performance_notes=row.get("performance_notes", ""),
             syllable_pattern=row.get("syllable_pattern", ""),

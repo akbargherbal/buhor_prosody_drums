@@ -163,7 +163,7 @@ BUHOOR: dict = {
     },
     "wafir": {
         "arabic": "الوافر",
-        "taf_eela": "مُفَاعَلَتُن",
+        "taf_eela": "مُفَاعَلَتُنْ",
         "transliteration": "mufa'alatun",
         "syllable_pattern": "∪—∪∪— | ∪—∪∪—",
         "time_signature": (6, 8),
@@ -205,6 +205,17 @@ BUHOOR: dict = {
         "description": "Al-Khafeef — 'the light' — is an ornate, musical meter heavily favored in Andalusian poetry and classical muwashshahat.",
         "variants": [],
     },
+    "munsarih": {
+        "arabic": "المنسرح",
+        "taf_eela": "مُسْتَفْعِلُنْ مَفْعُولَاتُ مُسْتَفْعِلُنْ",
+        "transliteration": "mustaf'ilun maf'oolatu mustaf'ilun",
+        "syllable_pattern": "——∪— | ———∪ | ——∪—",
+        "time_signature": (4, 4),
+        "beats_per_bar": 4,
+        "steps_per_bar": 12,
+        "description": "Al-Munsarih — 'the flowing freely' — is a lively, angular meter whose central مَفْعُولَاتُ foot creates an asymmetric accent that sets it apart from Al-Baseet. Less common in the classical corpus but prized for its assertive, slightly off-kilter energy.",
+        "variants": [],
+    },
     "mutaqarib": {
         "arabic": "المتقارب",
         "taf_eela": "فَعُولُنْ فَعُولُنْ فَعُولُنْ فَعُولُنْ",
@@ -223,7 +234,7 @@ BUHOOR: dict = {
         "syllable_pattern": "∪——— | ∪———",
         "time_signature": (4, 4),
         "beats_per_bar": 4,
-        "steps_per_bar": 4,
+        "steps_per_bar": 8,  # Task 3.4: fixed from 4 → 8 (two full مَفَاعِيلُنْ feet)
         "description": "Al-Hazaj — 'the trilling' — is a short, joyful, and festive meter, often used in lighthearted folk songs and celebratory verse.",
         "variants": [],
     },
@@ -277,27 +288,9 @@ if _REGISTRY_AVAILABLE:
                         _pat = get_pattern(_rec.variant_slug, _rec.steps_per_bar)
                         if _pat:
                             # Derive beats_per_bar to maintain timing model for heterogeneous variants
-                            _beats = _rec.steps_per_bar
-                            if _rec.steps_per_bar == 21:
-                                _beats = 3
-                            elif _rec.steps_per_bar == 10:
-                                _beats = 10
-                            elif _rec.steps_per_bar == 7:
-                                _beats = 7
-                            elif _rec.steps_per_bar == 6:
-                                _beats = 6
-                            elif _rec.steps_per_bar == 32:
-                                _beats = 8
-                            elif _rec.steps_per_bar == 8:
-                                _beats = 4
-                            elif _rec.steps_per_bar == 4:
-                                _beats = 4
-                            elif _rec.steps_per_bar == 12:
-                                _beats = 4
-                            elif _rec.steps_per_bar == 14:
-                                _beats = 2
-                            else:
-                                _beats = BUHOOR[_slug]["beats_per_bar"]
+                            # Task 3.3: beats_per_bar is now authoritative in the JSON record.
+                            # Fallback to BUHOOR dict only if the field is absent (legacy records).
+                            _beats = getattr(_rec, 'beats_per_bar', None) or BUHOOR[_slug]["beats_per_bar"]
 
                             _new_variants.append(
                                 {
@@ -627,6 +620,7 @@ def generate_bahr(
             "is_traditional": variant.get("is_traditional", True),
             "bpm": effective_bpm,
             "bpm_range": variant.get("bpm_range", [0, 300]),
+            "no_clamp": no_clamp,
             "steps_per_bar": steps_per_bar,
             "geographic_tradition": variant.get("geographic_tradition", "Pan-Arab"),
             "instrument_context": variant.get("instrument_context", ""),

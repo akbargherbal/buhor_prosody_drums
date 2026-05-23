@@ -22,13 +22,17 @@ IqaaPatternRegistry: dict[tuple[str, int], dict[str, list[int]]] = {
         "hihat": [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0],
         "crash": [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     },
-    ("fallahy", 12): {
+    ("fallahi", 12): {  # Task 2.1: renamed from ("fallahy", 12) — corrected to match JSON slug
         "kick": [1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0],
         "snare": [0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0],
         "hihat": [1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0],
         "crash": [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     },
-    ("samaai_darij", 21): {
+    # Task 2.1: ("samaai_darij", 21) renamed to ("samaai_darij_legacy", 21).
+    # Orphan slug (letters "ai") — had no JSON backing. JSON-matched key is
+    # ("sama3i_darij", 21) with numeral 3, kept in Phase 2 section below.
+    # Retained as legacy; do not delete until JSON record is added, if ever.
+    ("samaai_darij_legacy", 21): {
         "kick": [1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0],
         "snare": [0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 0],
         "hihat": [1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 1, 0],
@@ -167,6 +171,16 @@ IqaaPatternRegistry: dict[tuple[str, int], dict[str, list[int]]] = {
         "crash": [1, 0, 0, 0, 0, 0, 0],
     },
     # ── Group D: 8-step ──
+    # Task 3.5: ("mudawwar_masri", 8) added for Al-Hazaj (two مَفَاعِيلُنْ feet per bar).
+    # Derived from ("mudawwar_masri", 12): DUM on each foot-downbeat (steps 1, 5);
+    # snare on beat 4; ka ornaments on 3 and 7; steady hihat on even eighths.
+    ("mudawwar_masri", 8): {
+        "kick":  [1, 0, 0, 0, 1, 0, 0, 0],
+        "snare": [0, 0, 0, 1, 0, 0, 0, 0],
+        "ka":    [0, 0, 1, 0, 0, 0, 1, 0],
+        "hihat": [1, 0, 1, 0, 1, 0, 1, 0],
+        "crash": [1, 0, 0, 0, 0, 0, 0, 0],
+    },
     ("wahda_kabira", 8): {
         "kick": [1, 0, 0, 0, 0, 0, 0, 0],
         "snare": [0, 0, 1, 0, 1, 0, 0, 0],

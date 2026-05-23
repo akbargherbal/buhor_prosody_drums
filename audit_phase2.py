@@ -15,7 +15,11 @@ test_cases = [
     ("taweel", "wahda_kabira", 8, 72),  # Group D
     ("khafeef", "sama3i_thaqil", 10, 60),  # Group E
     ("taweel", "mudawwar_masri", 12, 80),  # Group F
-    ("wafir", "sama3i_saraband", 21, 108),  # Group G
+    # ("wafir", "sama3i_saraband", 21, 108),  # Group G — COMMENTED OUT (Task 2.3)
+    # Phantom pairing: no JSON record links Al-Wafir to Sama3i Saraband.
+    # The ("sama3i_saraband", 21) pattern exists in IqaaPatternRegistry but has
+    # no arabic_rhythm_data.json backing for the wafir meter. Removing this test
+    # prevents a false-positive audit pass. Restore if JSON record is added.
     ("taweel", "warshan_arabi", 32, 68),  # Group H
 ]
 

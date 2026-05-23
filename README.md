@@ -1,6 +1,6 @@
 # بحور الشعر — Arabic Poetic Meters Drum Generator
 
-A command-line tool that synthesizes drum loops matched to the rhythmic character of all 13 major Arabic poetic meters (_buhoor_ — بحور). Driven by a rich JSON metadata registry, the tool produces MP3 files drawn from 44 compatible Arabic percussion cycles, complete with ID3 tags and generation manifests.
+A command-line tool that synthesizes drum loops matched to the rhythmic character of all 12 major Arabic poetic meters (_buhoor_ — بحور). Driven by a rich JSON metadata registry, the tool produces MP3 files drawn from 44 compatible Arabic percussion cycles, complete with ID3 tags and generation manifests.
 
 ---
 
@@ -8,7 +8,7 @@ A command-line tool that synthesizes drum loops matched to the rhythmic characte
 
 Arabic poetry is built on a system of quantitative meters called _buhoor_ (بحور, literally "seas"). Each bahr has a characteristic pattern of long (—) and short (∪) syllables that gives it a distinct rhythmic personality. This tool translates those prosodic patterns into drum grids — kick, snare, ka (doumbek snap), hihat, and crash — so you can hear, and produce with, the rhythmic soul of each meter.
 
-The 13 meters covered represent nearly **100% of the classical Arabic poetic corpus**:
+The 12 meters covered represent nearly **100% of the classical Arabic poetic corpus**:
 
 | Bahr         | Arabic   | Corpus share | Time Signature |
 | ------------ | -------- | ------------ | -------------- |
@@ -24,6 +24,16 @@ The 13 meters covered represent nearly **100% of the classical Arabic poetic cor
 | Al-Sari      | السريع   | 1.5%         | 4/4            |
 | Al-Mutadarak | المتدارك | 1.0%         | 4/4            |
 | Al-Madeed    | المديد   | 0.5%         | 7/8            |
+
+---
+
+## Design Philosophy: Iqaa-First Approach
+
+This tool takes an **iqaa-first (ethnomusicological) approach**: drum patterns are sourced from traditional Arabic percussion cycles (*iqaat*) that musicians have historically performed alongside each meter. These are curated cultural pairings, not mathematical derivations from syllabic structure.
+
+This is a deliberate choice. An alternative **prosody-first (structural) approach** would derive patterns directly from the binary long/short syllable sequence of each meter's prosodic feet. That approach produces structurally accurate patterns but does not reflect what traditional ensembles actually play.
+
+**Al-Sari note:** This project uses the classical theoretical foot sequence for Al-Sari (`مُسْتَفْعِلُنْ مُسْتَفْعِلُنْ مَفْعُولَاتُ`). Other tools may use the ziHaf-collapsed practical form (`مُسْتَفْعِلُنْ مُسْتَفْعِلُنْ فَاعِلُنْ`). Both are scholarly defensible.
 
 ---
 
@@ -60,22 +70,22 @@ sudo apt install ffmpeg
 
 ```bash
 # Interactive menu — prompts you to choose a meter
-python buhoor_drums_v2.py
+python buhoor_drums.py
 
 # One specific meter by name
-python buhoor_drums_v2.py taweel
+python buhoor_drums.py taweel
 
 # Multiple meters at once
-python buhoor_drums_v2.py kamil baseet
+python buhoor_drums.py kamil baseet
 
-# All 13 meters (generates ~44 files)
-python buhoor_drums_v2.py --all
+# All 12 meters (generates ~44 files)
+python buhoor_drums.py --all
 
 # List all meters and variants without generating anything
-python buhoor_drums_v2.py --list
+python buhoor_drums.py --list
 
 # View rich metadata for a specific meter/variant pairing
-python buhoor_drums_v2.py --info taweel wahda_kabira
+python buhoor_drums.py --info taweel wahda_kabira
 ```
 
 ### Filtering & Metadata
@@ -84,13 +94,13 @@ The tool includes a rich metadata registry (`arabic_rhythm_data.json`) that allo
 
 ```bash
 # Generate only traditional pairings (no contemporary experiments)
-python buhoor_drums_v2.py --all --traditional-only
+python buhoor_drums.py --all --traditional-only
 
 # Generate only Egyptian (Masri) rhythms
-python buhoor_drums_v2.py --all --region Masri
+python buhoor_drums.py --all --region Masri
 
 # Generate only rhythms meant for a full Firqa ensemble
-python buhoor_drums_v2.py --all --instrument firqa
+python buhoor_drums.py --all --instrument firqa
 ```
 
 ### Tempo & Humanization
@@ -99,16 +109,16 @@ Every variant has its own default tempo chosen to match the prosodic character o
 
 ```bash
 # Override tempo (will clamp if outside recommended range)
-python buhoor_drums_v2.py taweel -v wahda_kabira --bpm 120
+python buhoor_drums.py taweel -v wahda_kabira --bpm 120
 
 # Override tempo and force it past the recommended range
-python buhoor_drums_v2.py taweel -v wahda_kabira --bpm 200 --no-clamp
+python buhoor_drums.py taweel -v wahda_kabira --bpm 200 --no-clamp
 
 # Tighter timing, more velocity variation
-python buhoor_drums_v2.py --all --jitter 0.003 --velocity-variance 0.2
+python buhoor_drums.py --all --jitter 0.003 --velocity-variance 0.2
 
 # Completely mechanical (no humanization)
-python buhoor_drums_v2.py --all --jitter 0 --velocity-variance 0
+python buhoor_drums.py --all --jitter 0 --velocity-variance 0
 ```
 
 ---
@@ -116,7 +126,7 @@ python buhoor_drums_v2.py --all --jitter 0 --velocity-variance 0
 ## Options
 
 ```
-Usage: buhoor_drums_v2.py [OPTIONS] [BAHR]...
+Usage: buhoor_drums.py [OPTIONS] [BAHR]...
 
 Options:
   --all                           Generate all buhoor.
@@ -203,7 +213,7 @@ To add a new rhythm:
 }
 ```
 
-3. Run `python buhoor_drums_v2.py --validate` to ensure your new pattern is correctly linked.
+3. Run `python buhoor_drums.py --validate` to ensure your new pattern is correctly linked.
 
 ---
 
